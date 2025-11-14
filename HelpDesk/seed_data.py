@@ -2,10 +2,10 @@ import random
 from werkzeug.security import generate_password_hash
 from datetime import datetime, timezone
 from .extensions import db
-from .models import user, ticket
+from .models import User, Ticket
 
 def populate_seed_data():
-    if user.query.first():
+    if User.query.first():
         print("Seed data already exists.")
         return
 
@@ -44,11 +44,11 @@ def populate_seed_data():
             totp_secret=None,
             is_2fa_enabled=False
         )
-        users.append(user)
+        users.append(User)
 
     db.session.add_all(users)
     db.session.commit()
-    users = user.query.all()
+    users = User.query.all()
 
     # 10 tickets
     subjects = [
@@ -105,7 +105,7 @@ def populate_seed_data():
             user_id=created_by_user.id,
             assignee_id=assignee_user.id
         )
-        tickets.append(ticket)
+        tickets.append(Ticket)
 
     db.session.add_all(tickets)
     db.session.commit()

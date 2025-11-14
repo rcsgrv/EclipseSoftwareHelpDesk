@@ -1,3 +1,0 @@
-from .user import user
-from .comment import comment
-from .ticket import ticket

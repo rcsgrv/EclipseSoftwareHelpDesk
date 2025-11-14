@@ -3,7 +3,7 @@ from flask_login import UserMixin
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
-class user(db.Model, UserMixin):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     forename = db.Column(db.String(50))
     surname = db.Column(db.String(50))
@@ -15,6 +15,6 @@ class user(db.Model, UserMixin):
     is_2fa_enabled = db.Column(db.Boolean, default=False)
     date_created = db.Column(db.DateTime(timezone=True), default=func.current_timestamp())
 
-    tickets = relationship('ticket', backref='user', foreign_keys='ticket.user_id')
-    assigned_tickets = relationship('ticket', backref='assignee', foreign_keys='ticket.assignee_id')
-    user_comments = relationship('comment', backref='user', foreign_keys='comment.user_id')
+    tickets = relationship('Ticket', backref='user', foreign_keys='ticket.user_id')
+    assigned_tickets = relationship('Ticket', backref='assignee', foreign_keys='ticket.assignee_id')
+    user_comments = relationship('Comment', backref='user', foreign_keys='comment.user_id')

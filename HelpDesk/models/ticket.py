@@ -2,7 +2,7 @@ from ..extensions import db
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
-class ticket(db.Model):
+class Ticket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text(500), nullable=False)
