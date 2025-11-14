@@ -34,7 +34,7 @@ def populate_seed_data():
     users = []
     for i in range(1, 11):
         is_admin = i in (1, 2)
-        user = user(
+        user = User(
             forename=forenames[i-1],
             surname=surnames[i-1],
             email=f'user{i}@test.com',
@@ -44,7 +44,7 @@ def populate_seed_data():
             totp_secret=None,
             is_2fa_enabled=False
         )
-        users.append(User)
+        users.append(user)
 
     db.session.add_all(users)
     db.session.commit()
@@ -92,7 +92,7 @@ def populate_seed_data():
         created_by_user = random.choice(non_administrator_users)
         assignee_user = random.choice(administrator_users)
 
-        ticket = ticket(
+        ticket = Ticket(
             subject=subjects[i],
             description=descriptions[i],
             status=statuses[i % len(statuses)],
@@ -105,7 +105,7 @@ def populate_seed_data():
             user_id=created_by_user.id,
             assignee_id=assignee_user.id
         )
-        tickets.append(Ticket)
+        tickets.append(ticket)
 
     db.session.add_all(tickets)
     db.session.commit()
