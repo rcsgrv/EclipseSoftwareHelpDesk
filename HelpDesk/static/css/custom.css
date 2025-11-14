@@ -1,0 +1,57 @@
+/* Custom styles for the body*/
+body {
+    background-color: #ffffff;
+    color: #333333; /* default text color */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Custom styles for the navbar */
+.navbar-custom {
+    background-color: #4C6C85; 
+}
+.navbar-custom .nav-link,
+.navbar-custom .navbar-brand {
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #AFC8D3;
+}
+
+.navbar-custom .nav-link.active {
+    color: #E0F2F7;
+    font-weight: 600;
+}
+
+.navbar-custom .nav {
+    gap: 1rem;
+}
+
+/* Custom styles for card headers */
+.card-header {
+    background-color: #4C6C85;
+    color: #ffffff;
+}
+
+/* Custom styles for buttons using primary color */
+.btn-primary {
+    background-color: #4C6C85;
+    border-color: #4C6C85;
+}
+.btn-primary:hover {
+    background-color: #3a5566;
+    border-color: #3a5566;
+}
+
+/* Custom styles for the ticket table on the homepage */
+.table thead.custom-table-header th {
+    background-color: #4C6C85 !important; 
+    color: #ffffff;
+    border-bottom: 2px solid #3a5566;
+    text-align: center;
+}
+
+.btn {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}

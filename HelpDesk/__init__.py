@@ -1,4 +1,4 @@
-from flask import Flask, LoginManager
+from flask import Flask
 from config import Config
 from .extensions import db, login_manager
 import os
@@ -20,9 +20,11 @@ def create_app(config_class=None):
     login_manager.login_view = 'auth.login'
 
     # Register Blueprints
+    from .views.home import home_bp
     from .views.auth import auth_bp
 
-    app.register_blueprint(auth_bp)
+    app.register_blueprint(home_bp, url_prefix='/')
+    app.register_blueprint(auth_bp, url_prefix='/')
 
     create_database(app)
 

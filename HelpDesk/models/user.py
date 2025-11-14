@@ -15,6 +15,6 @@ class User(db.Model, UserMixin):
     is_2fa_enabled = db.Column(db.Boolean, default=False)
     date_created = db.Column(db.DateTime(timezone=True), default=func.current_timestamp())
 
-    tickets = relationship('Ticket', backref='user', foreign_keys='ticket.user_id')
-    assigned_tickets = relationship('Ticket', backref='assignee', foreign_keys='ticket.assignee_id')
-    user_comments = relationship('Comment', backref='user', foreign_keys='comment.user_id')
+    tickets = relationship('Ticket', backref='user', foreign_keys='Ticket.user_id')
+    assigned_tickets = relationship('Ticket', backref='assignee', foreign_keys='Ticket.assignee_id')
+    user_comments = relationship('Comment', backref='user', foreign_keys='Comment.user_id')

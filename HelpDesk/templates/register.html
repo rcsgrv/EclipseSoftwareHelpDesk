@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %} Register {% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-sm" style="max-width: 600px; margin: 0 auto; border: none;">
+    <div class="card-header text-white text-center" style="background-color: #4C6C85;">
+      <h3 class="mb-0">Create Your Account</h3>
+    </div>
+
+    <div class="card-body p-4">
+      <form method="POST">
+        <div class="mb-3">
+          <label for="forename" class="form-label">Forename</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="forename" 
+            name="forename" 
+            value="{{ forename | default('') }}" 
+            placeholder="Enter your forename"
+            required
+          >
+        </div>
+
+        <div class="mb-3">
+          <label for="surname" class="form-label">Surname</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="surname" 
+            name="surname" 
+            value="{{ surname | default('') }}" 
+            placeholder="Enter your surname"
+            required
+          >
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email Address</label>
+          <input 
+            type="email" 
+            class="form-control" 
+            id="email" 
+            name="email" 
+            value="{{ email | default('') }}" 
+            placeholder="Enter your email address"
+            required
+          >
+        </div>
+
+        <div class="mb-3">
+          <label for="account_type" class="form-label">Account Type</label>
+          <select 
+            class="form-select" 
+            id="account_type" 
+            name="account_type" 
+            required
+          >
+            <option value="" disabled {% if not account_type %}selected{% endif %}>Select an Account Type</option>
+            <option value="User" {% if account_type == 'User' %}selected{% endif %}>Customer Account</option>
+            <option value="Administrator" {% if account_type == 'Administrator' %}selected{% endif %}>Eclipse Staff Account</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="agency" class="form-label">Recruitment Agency</label>
+          <select id="agency" name="agency" class="form-select">
+            <option value="" disabled selected>Select your agency</option>
+              {% for agency in agencies %}
+                <option value="{{ agency }}">{{ agency }}</option>
+              {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input 
+            type="password" 
+            class="form-control" 
+            id="password" 
+            name="password" 
+            placeholder="Enter your password"
+            required
+          >
+        </div>
+
+        <div class="mb-3">
+          <label for="password_confirm" class="form-label">Confirm Password</label>
+          <input 
+            type="password" 
+            class="form-control" 
+            id="password_confirm" 
+            name="password_confirm" 
+            placeholder="Confirm your password"
+            required
+          >
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn text-white" style="background-color: #4C6C85; border: none;">
+            Register
+          </button>
+        </div>
+
+        <p class="text-center mt-3 mb-0">
+          Already have an account? 
+          <a href="{{ url_for('auth.login') }}" class="fw-bold" style="color: #4C6C85;">Login here</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  function toggleAgency() {
+    const type = document.getElementById('account_type').value;
+    const agencySelect = document.getElementById('agency');
+
+    if (type === 'Customer Account') {
+      agencySelect.disabled = false;
+      agencySelect.value = "";
+    } else {
+      agencySelect.value = "Eclipse Software";
+      agencySelect.disabled = true;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    toggleAgency();
+
+    document.getElementById('account_type').addEventListener('change', toggleAgency);
+  });
+</script>S
+{% endblock %}
