@@ -7,7 +7,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from ..models import User
 from HelpDesk.utils.registration_helper import validate_registration_form
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..extensions import db, login_manager
+from ..extensions import db
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -74,12 +74,12 @@ def register():
         email = request.form.get('email')
         forename = request.form.get('forename')
         surname = request.form.get('surname')
+        account_type = request.form.get('account_type')
         password = request.form.get('password')
         password_confirm = request.form.get('password_confirm')
-        account_type = request.form.get('account_type')
 
         user = User.query.filter_by(email=email).first()
-        error = validate_registration_form(forename, surname, email, password, password_confirm, account_type, user)
+        error = validate_registration_form(forename, surname, email, account_type, password, password_confirm, user)
         if error:
             flash(error, category='error')
             return render_template(
@@ -97,8 +97,8 @@ def register():
             'email': email,
             'forename': forename,
             'surname': surname,
-            'password': password,
             'account_type': account_type,
+            'password': password,
             'totp_secret': totp_secret
         }
 
@@ -162,8 +162,8 @@ def setup_2fa():
                     email=pending_user['email'],
                     forename=pending_user['forename'],
                     surname=pending_user['surname'],
-                    password=generate_password_hash(pending_user['password'], method='pbkdf2:sha256'),
                     account_type=pending_user['account_type'],
+                    password=generate_password_hash(pending_user['password'], method='pbkdf2:sha256'),
                     totp_secret=pending_user['totp_secret'],
                     is_2fa_enabled=True
                 )

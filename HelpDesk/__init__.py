@@ -22,9 +22,13 @@ def create_app(config_class=None):
     # Register Blueprints
     from .views.home import home_bp
     from .views.auth import auth_bp
+    from .views.tickets import tickets_bp
+    from .views.users import users_bp
 
     app.register_blueprint(home_bp, url_prefix='/')
     app.register_blueprint(auth_bp, url_prefix='/')
+    app.register_blueprint(tickets_bp, url_prefix='/')
+    app.register_blueprint(users_bp, url_prefix='/')
 
     create_database(app)
 
