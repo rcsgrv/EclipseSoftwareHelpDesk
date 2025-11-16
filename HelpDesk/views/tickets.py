@@ -16,18 +16,20 @@ tickets_bp = Blueprint('tickets', __name__)
 @login_required
 def create_ticket():
     if request.method == 'POST':
+        ticket_type = request.form.get('ticket_type')
         subject = request.form.get('subject')
         description = request.form.get('description')
         status = request.form.get('status')
         priority = request.form.get('priority')
         estimated_time = request.form.get('estimated_time')
 
-        error = validate_ticket_form(subject, description, status, priority, estimated_time)
+        error = validate_ticket_form(ticket_type, subject, description, status, priority, estimated_time)
         if error:
             return render_ticket_form(
                 'create_ticket.html',
                 error=error,
                 user=current_user,
+                ticket_type=ticket_type,
                 subject=subject,
                 description=description,
                 status=status,
@@ -36,6 +38,7 @@ def create_ticket():
             )
 
         new_ticket = Ticket(
+            ticket_type=ticket_type,
             subject=subject,
             description=description,
             status=status,
@@ -59,6 +62,7 @@ def create_ticket():
 def ticket_details(ticket_id):
     ticket = Ticket.query.filter_by(id=ticket_id).first()
     administrator = User.query.filter_by(is_admin=True).all()
+    comments = Comment.query.filter_by(ticket_id=ticket.id).order_by(Comment.date_created.asc()).all()
 
     if not ticket:
         flash('Ticket not found.', category='error')
@@ -69,33 +73,41 @@ def ticket_details(ticket_id):
         return redirect(url_for('home.home'))
 
     if request.method == 'POST' and 'subject' in request.form:
+        ticket_type = request.form.get('ticket_type')
         subject = request.form.get('subject')
         description = request.form.get('description')
         status = request.form.get('status')
         priority = request.form.get('priority')
         estimated_time = request.form.get('estimated_time')
-        created_by = request.form.get('created_by')
-        updated_by = request.form.get('updated_by')
-        date_created = request.form.get('date_created')
-        date_updated = request.form.get('date_updated')
         assignee_id = request.form.get('assignee_id')
-        assignee = request.form.get('assignee')
 
-        error = validate_ticket_form(subject, description, status, priority, estimated_time)
+        error = validate_ticket_form(ticket_type, subject, description, status, priority, estimated_time)
         if error:
             flash(error, 'error')
+            return render_template(
+                'ticket_details.html',
+                ticket=ticket,
+                comments=comments,
+                administrator=administrator,
+                ticket_type=ticket_type,
+                subject=subject,
+                description=description,
+                status=status,
+                priority=priority,
+                estimated_time=estimated_time,
+                assignee_id=assignee_id,
+                edit_mode=True
+            )
         else:
+            ticket.ticket_type = ticket_type
             ticket.subject = subject
             ticket.description = description
             ticket.status = status
             ticket.priority = priority
             ticket.estimated_time = float(estimated_time)
-            ticket.created_by = created_by
-            ticket.updated_by = updated_by
-            ticket.date_created = date_created  
+            ticket.updated_by = f"{current_user.forename} {current_user.surname}"
             ticket.date_updated = datetime.now()
             ticket.assignee_id = assignee_id
-            ticket.assignee = assignee
 
             db.session.commit()
             flash('Ticket updated successfully.', category='success')
@@ -103,7 +115,12 @@ def ticket_details(ticket_id):
         
     if request.method == 'POST' and 'comment_text' in request.form:
         comment_text = request.form.get('comment_text').strip()
-        if comment_text:
+
+        if not comment_text:
+            flash('Comment cannot be empty.', 'error')
+        elif len(comment_text) > 500:
+            flash('Comments cannot exceed 500 characters', 'error')
+        else:    
             new_comment = Comment(
                 comment_text=comment_text,
                 author_fullname=f"{current_user.forename} {current_user.surname}",
@@ -114,13 +131,6 @@ def ticket_details(ticket_id):
             db.session.commit()
             flash('Comment added successfully.', 'success')
             return redirect(url_for('tickets.ticket_details', ticket_id=ticket.id))
-        else:
-            flash('Comment cannot be empty.', 'error')
-    
-    if current_user.is_admin:
-        comments = Comment.query.filter_by(ticket_id=ticket.id).order_by(Comment.date_created.asc()).all()
-    else:
-        comments = Comment.query.filter_by(ticket_id=ticket.id, user_id=current_user.id).order_by(Comment.date_created.asc()).all()
 
     return render_template('ticket_details.html', ticket=ticket, comments=comments, administrator=administrator)
 

@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 
 class Ticket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    ticket_type = db.Column(db.String(20), nullable=False)
     subject = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text(500), nullable=False)
     status = db.Column(db.String(20), nullable=False)
@@ -12,7 +13,7 @@ class Ticket(db.Model):
     created_by = db.Column(db.String(100), nullable=False)
     updated_by = db.Column(db.String(100), nullable=True)
     date_created = db.Column(db.DateTime(timezone=True), default=func.current_timestamp())
-    date_updated = db.Column(db.DateTime(timezone=True), default=func.current_timestamp(), onupdate=func.current_timestamp())
+    date_updated = db.Column(db.DateTime(timezone=True), default=None, nullable=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'), nullable=True)
     assignee_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'), nullable=True)

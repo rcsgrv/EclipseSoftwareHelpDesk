@@ -48,68 +48,83 @@
     </div>
 
     <!-- Filters and Actions Panel -->
-<div class="d-flex flex-wrap justify-content-between align-items-end mb-4 p-3 bg-white shadow-sm rounded">
+<div class="row mb-4 p-3 bg-white shadow-sm rounded align-items-end">
 
     <!-- Filters -->
-    <form method="get" action="{{ url_for('home.home') }}" class="d-flex flex-wrap gap-3 align-items-end flex-grow-1">
-        <!-- Status -->
-        <div>
-            <label for="status" class="form-label mb-1 fw-semibold">Status</label>
-            <select name="status" id="status" class="form-select form-select-sm" style="min-width: 150px;">
-                <option value="">All</option>
-                <option value="Open" {% if request.args.get('status') == 'Open' %}selected{% endif %}>Open</option>
-                <option value="In Progress" {% if request.args.get('status') == 'In Progress' %}selected{% endif %}>In Progress</option>
-                <option value="On Hold / Pending" {% if request.args.get('status') == 'On Hold / Pending' %}selected{% endif %}>On Hold / Pending</option>
-                <option value="Resolved" {% if request.args.get('status') == 'Resolved' %}selected{% endif %}>Resolved</option>
-                <option value="Closed" {% if request.args.get('status') == 'Closed' %}selected{% endif %}>Closed</option>
-            </select>
-        </div>
+    <div class="col-12 col-lg-10">
+        <form method="get" action="{{ url_for('home.home') }}" class="row g-3 align-items-end">
 
-        <!-- Priority -->
-        <div>
-            <label for="priority" class="form-label mb-1 fw-semibold">Priority</label>
-            <select name="priority" id="priority" class="form-select form-select-sm" style="min-width: 150px;">
-                <option value="">All</option>
-                <option value="High" {% if request.args.get('priority') == 'High' %}selected{% endif %}>High</option>
-                <option value="Normal" {% if request.args.get('priority') == 'Normal' %}selected{% endif %}>Normal</option>
-                <option value="Low" {% if request.args.get('priority') == 'Low' %}selected{% endif %}>Low</option>
-            </select>
-        </div>
+            <!-- Ticket Type -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <label for="ticket_type" class="form-label mb-1 fw-semibold">Ticket Type</label>
+                <select name="ticket_type" id="ticket_type" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    <option value="Support Request" {% if request.args.get('ticket_type') == 'Support Request' %}selected{% endif %}>Support Request</option>
+                    <option value="Feature Request" {% if request.args.get('ticket_type') == 'Feature Request' %}selected{% endif %}>Feature Request</option>
+                    <option value="Bug Report" {% if request.args.get('ticket_type') == 'Bug Report' %}selected{% endif %}>Bug Report</option>
+                </select>
+            </div>
 
-        <!-- Assignee -->
-        <div>
-            <label for="assignee" class="form-label mb-1 fw-semibold">Assignee</label>
-            <select name="assignee" id="assignee" class="form-select form-select-sm" style="min-width: 170px;">
-                <option value="">All</option>
-                <option value="Unassigned" {% if request.args.get('assignee') == 'Unassigned' %}selected{% endif %}>Unassigned</option>
-                {% for assignee in assignees %}
-                    <option value="{{ assignee.id }}" {% if request.args.get('assignee')|int == assignee.id %}selected{% endif %}>
-                        {{ assignee.forename }} {{ assignee.surname }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
+            <!-- Status -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <label for="status" class="form-label mb-1 fw-semibold">Status</label>
+                <select name="status" id="status" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    <option value="Open" {% if request.args.get('status') == 'Open' %}selected{% endif %}>Open</option>
+                    <option value="In Progress" {% if request.args.get('status') == 'In Progress' %}selected{% endif %}>In Progress</option>
+                    <option value="On Hold / Pending" {% if request.args.get('status') == 'On Hold / Pending' %}selected{% endif %}>On Hold / Pending</option>
+                    <option value="Resolved" {% if request.args.get('status') == 'Resolved' %}selected{% endif %}>Resolved</option>
+                    <option value="Closed" {% if request.args.get('status') == 'Closed' %}selected{% endif %}>Closed</option>
+                </select>
+            </div>
 
-        <!-- Date Created -->
-        <div>
-            <label for="date_created" class="form-label mb-1 fw-semibold">Date Created</label>
-            <select name="date_created" id="date_created" class="form-select form-select-sm" style="min-width: 160px;">
-                <option value="">All</option>
-                <option value="Today" {% if request.args.get('date_created') == 'Today' %}selected{% endif %}>Today</option>
-                <option value="Last 7 Days" {% if request.args.get('date_created') == 'Last 7 Days' %}selected{% endif %}>Last 7 Days</option>
-                <option value="This Month" {% if request.args.get('date_created') == 'This Month' %}selected{% endif %}>This Month</option>
-            </select>
-        </div>
+            <!-- Priority -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <label for="priority" class="form-label mb-1 fw-semibold">Priority</label>
+                <select name="priority" id="priority" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    <option value="High" {% if request.args.get('priority') == 'High' %}selected{% endif %}>High</option>
+                    <option value="Normal" {% if request.args.get('priority') == 'Normal' %}selected{% endif %}>Normal</option>
+                    <option value="Low" {% if request.args.get('priority') == 'Low' %}selected{% endif %}>Low</option>
+                </select>
+            </div>
 
-        <!-- Apply Filters Button -->
-        <div class="align-self-end">
-            <button type="submit" class="btn btn-sm text-white" style="background-color: #4C6C85;">Apply Filters</button>
-        </div>
-    </form>
+            <!-- Assignee -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <label for="assignee" class="form-label mb-1 fw-semibold">Assignee</label>
+                <select name="assignee" id="assignee" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    <option value="Unassigned" {% if request.args.get('assignee') == 'Unassigned' %}selected{% endif %}>Unassigned</option>
+                    {% for assignee in assignees %}
+                        <option value="{{ assignee.id }}" {% if request.args.get('assignee')|int == assignee.id %}selected{% endif %}>
+                            {{ assignee.forename }} {{ assignee.surname }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Date Created -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <label for="date_created" class="form-label mb-1 fw-semibold">Date Created</label>
+                <select name="date_created" id="date_created" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    <option value="Today" {% if request.args.get('date_created') == 'Today' %}selected{% endif %}>Today</option>
+                    <option value="Last 7 Days" {% if request.args.get('date_created') == 'Last 7 Days' %}selected{% endif %}>Last 7 Days</option>
+                    <option value="This Month" {% if request.args.get('date_created') == 'This Month' %}selected{% endif %}>This Month</option>
+                </select>
+            </div>
+
+            <!-- Apply Filters Button -->
+            <div class="col-6 col-md-4 col-lg-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-sm text-white w-100" style="background-color: #4C6C85;">Apply Filters</button>
+            </div>
+
+        </form>
+    </div>
 
     <!-- Create Ticket Button -->
-    <div class="ms-3">
-        <a href="{{ url_for('tickets.create_ticket') }}" class="btn btn-lg text-white shadow" 
+    <div class="col-12 col-lg-2 d-flex justify-content-lg-end mt-2 mt-lg-0">
+        <a href="{{ url_for('tickets.create_ticket') }}" class="btn btn-lg text-white shadow w-100" 
            style="background-color: #4C6C85; padding-left: 1.5rem; padding-right: 1.5rem;">
             Create New Ticket
         </a>
@@ -127,6 +142,7 @@
                 <table class="table table-bordered table-hover table-striped align-middle mb-0">
                     <thead class="custom-table-header text-center">
                         <tr>
+                            <th>Ticket Type</th>
                             <th>Subject</th>
                             <th>Description</th>
                             <th>Assignee</th>
@@ -140,6 +156,7 @@
                     <tbody>
                         {% for ticket in tickets.items %}
                         <tr>
+                            <td class="text-center">{{ ticket.ticket_type }}</td>
                             <td>{{ ticket.subject }}</td>
                             <td>{{ ticket.description }}</td>
                             <td class="text-center">
@@ -172,7 +189,7 @@
                                 {% endif %}
                             </td>
                             <td class="text-center">{{ "%.2f"|format(ticket.estimated_time) }}</td>
-                            <td class="text-center">{{ ticket.date_created.strftime('%d-%m-%Y %H:%M:%S') }}</td>
+                            <td class="text-center">{{ ticket.date_created.strftime('%d-%m-%Y %H:%M') }}</td>
                             <td class="text-center">
                                 <a href="{{ url_for('tickets.ticket_details', ticket_id=ticket.id) }}" class="btn btn-sm text-white" style="background-color: #4C6C85;">View</a>
                             </td>

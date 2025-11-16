@@ -10,87 +10,89 @@
 
     <div class="card-body p-4">
       <form method="POST">
+        <!-- Ticket Type -->
         <div class="mb-3">
-          <label for="subject" class="form-label fw-semibold px-2 mb-1">Subject<span 
-                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
-                 title="Please provide a brief, concise title or summary of your issue or request"> *</span></label>
+          <label for="ticket_type" class="form-label fw-semibold px-2 mb-1">Ticket Type<span 
+                 class="text-danger"> *</span></label>
+          <select class="form-select" id="ticket_type" name="ticket_type" required>
+            {% for t in ['Support Request', 'Feature Request', 'Bug Report'] %}
+              <option value="{{ t }}" {% if (ticket_type | default('Support Request')) == t %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Subject -->
+        <div class="mb-3">
+          <label for="subject" class="form-label fw-semibold px-2 mb-1">Subject<span class="text-danger"> *</span></label>
           <input 
             type="text" 
             class="form-control" 
             id="subject" 
             name="subject" 
-            value="{{ subject | default('') }}">            
+            value="{{ subject | default('') }}" 
+            required>
         </div>
 
+        <!-- Description -->
         <div class="mb-3">
-            <label for="description" class="form-label fw-semibold px-2 mb-1">Description<span 
-                   class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" 
-                   title="Please provide a detailed explanation of your issue or request"> *</span></label>
-            <textarea 
-                class="form-control" 
-                id="description" 
-                name="description" 
-                rows="3">{{ description | default('') }}</textarea>
+          <label for="description" class="form-label fw-semibold px-2 mb-1">Description<span class="text-danger"> *</span></label>
+          <textarea 
+              class="form-control" 
+              id="description" 
+              name="description" 
+              rows="3"
+              required>{{ description | default('') }}</textarea>
         </div>
 
-        {% if current_user.is_admin == True %}
-            <div class="mb-3">
-                <label for="status" class="form-label fw-semibold px-2 mb-1">Status<span 
-                       class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" 
-                       title="Please select a status for the ticket"> *</span></label>
-                <select class="form-select" 
-                        id="status" 
-                        name="status">
-                    <option value="Open" {% if status == 'Open' %}selected{% endif %}>Open</option>
-                    <option value="In Progress" {% if status == 'In Progress' %}selected{% endif %}>In Progress</option>
-                    <option value="On Hold / Pending" {% if status == 'On Hold / Pending' %}selected{% endif %}>On Hold / Pending</option>
-                    <option value="Resolved" {% if status == 'Resolved' %}selected{% endif %}>Resolved</option>
-                    <option value="Closed" {% if status == 'Closed' %}selected{% endif %}>Closed</option>
-                </select>
-            </div>
+        {% if current_user.is_admin %}
+          <!-- Status -->
+          <div class="mb-3">
+            <label for="status" class="form-label fw-semibold px-2 mb-1">Status<span class="text-danger"> *</span></label>
+            <select class="form-select" id="status" name="status" required>
+              {% for s in ['Open', 'In Progress', 'On Hold / Pending', 'Resolved', 'Closed'] %}
+                <option value="{{ s }}" {% if (status | default('Open')) == s %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+          </div>
 
-            <div class="mb-3">
-                <label for="priority" class="form-label fw-semibold px-2 mb-1">Priority<span 
-                       class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" 
-                       title="Please select a priority level for the ticket."> *</span></label>
-                <select class="form-select" id="priority" name="priority"
-                        data-bs-toggle="tooltip" data-bs-placement="top" title="Please select a priority level for the ticket">
-                    <option value="Low" {% if priority == 'Low' %}selected{% endif %}>Low</option>
-                    <option value="Normal" {% if priority == 'Normal' %}selected{% endif %}>Normal</option>
-                    <option value="High" {% if priority == 'High' %}selected{% endif %}>High</option>
-                </select>
-            </div>
+          <!-- Priority -->
+          <div class="mb-3">
+            <label for="priority" class="form-label fw-semibold px-2 mb-1">Priority<span class="text-danger"> *</span></label>
+            <select class="form-select" id="priority" name="priority" required>
+              {% for p in ['Low', 'Normal', 'High'] %}
+                <option value="{{ p }}" {% if (priority | default('Normal')) == p %}selected{% endif %}>{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
 
-            <div class="mb-3">
-                <label for="estimated_time" class="form-label fw-semibold px-2 mb-1">Estimated Time (hours)<span 
-                       class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" 
-                       title="Please provide an estimate for how long it will take to action this ticket"> *</span></label>
-                <input type="number" 
-                       class="form-control" 
-                       id="estimated_time" 
-                       name="estimated_time"
-                       step="any"
-                       min="1" 
-                       max="40"
-                       value="{{ estimated_time|default('') }}">
-            </div>
-
+          <!-- Estimated Time -->
+          <div class="mb-3">
+            <label for="estimated_time" class="form-label fw-semibold px-2 mb-1">Estimated Time (hours)<span class="text-danger"> *</span></label>
+            <input type="number" 
+                   class="form-control" 
+                   id="estimated_time" 
+                   name="estimated_time"
+                   step="any"
+                   value="{{ estimated_time | default('4') }}"
+                   required>
+          </div>
         {% else %}
-            <input type="hidden" name="status" value="{{ status | default('Open') }}">
-            <input type="hidden" name="priority" value="{{ priority | default('Normal') }}">
-            <input type="hidden" name="estimated_time" value="{{ estimated_time | default(4) }}">
+          <input type="hidden" name="status" value="{{ status | default('Open') }}">
+          <input type="hidden" name="priority" value="{{ priority | default('Normal') }}">
+          <input type="hidden" name="estimated_time" value="{{ estimated_time | default('4') }}">
         {% endif %}
 
         <div class="d-flex justify-content-end gap-2 mt-4">
             <a href="{{ url_for('home.home') }}" class="btn btn-secondary">Cancel</a>
             <button type="submit" class="btn text-white" style="background-color: #4C6C85;">Submit</button>
         </div>
-    </form>
+      </form>
+    </div>
+  </div>
+
+  <script>
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el); });
+  </script>
 </div>
-
-<script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el); });
-</script>
-
 {% endblock %}

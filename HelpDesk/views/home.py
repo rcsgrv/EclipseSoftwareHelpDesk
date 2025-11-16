@@ -29,16 +29,19 @@ def home():
     closed_tickets = Ticket.query.filter_by(**filters, status='Closed').count()
 
     # Filter parameters
-    status = request.args.get('status')
-    priority = request.args.get('priority')
+    ticket_type_filter = request.args.get('ticket_type')
+    status_filter = request.args.get('status')
+    priority_filter = request.args.get('priority')
     assignee_filter = request.args.get('assignee')
     date_filter = request.args.get('date_created')
 
     # Filtering logic
-    if status:
-        query = query.filter_by(status=status)
-    if priority:
-        query = query.filter_by(priority=priority)
+    if ticket_type_filter:
+        query = query.filter_by(ticket_type=ticket_type_filter)
+    if status_filter:
+        query = query.filter_by(status=status_filter)
+    if priority_filter:
+        query = query.filter_by(priority=priority_filter)
 
     # Assignee filter including Unassigned tickets
     if assignee_filter:
@@ -64,8 +67,9 @@ def home():
 
     # Determine if any filters are applied
     filters_applied = any([
-    status and status != "",
-    priority and priority != "",
+    ticket_type_filter and ticket_type_filter != "",
+    status_filter and status_filter != "",
+    priority_filter and priority_filter != "",
     assignee_filter and assignee_filter != "",
     date_filter and date_filter != ""
     ])
@@ -93,8 +97,9 @@ def home():
         resolved_tickets=resolved_tickets,
         closed_tickets=closed_tickets,
         filter_assignee=assignee_filter,
-        filter_status=status,
-        filter_priority=priority,
+        filter_ticket_type=ticket_type_filter,
+        filter_status=status_filter,
+        filter_priority=priority_filter,
         filter_date=date_filter,
         filters_applied=filters_applied,
         datetime=datetime

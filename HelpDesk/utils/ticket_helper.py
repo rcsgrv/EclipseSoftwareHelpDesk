@@ -1,6 +1,8 @@
 # This function validates all fields on the edit ticket page and the create ticket page (create_ticket.html and edit_ticket.html).
 
-def validate_ticket_form(subject, description, status, priority, estimated_time):
+def validate_ticket_form(ticket_type, subject, description, status, priority, estimated_time):
+    if not ticket_type:
+        return 'You must select a ticket type.'
     if not subject or len(subject.strip()) < 1:
         return 'Subject cannot be blank.'
     if len(subject) > 100:

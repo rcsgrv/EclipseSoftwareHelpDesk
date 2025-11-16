@@ -88,7 +88,6 @@ def register():
                 forename=forename,
                 surname=surname,
                 email=email,
-                is_admin=is_admin
             )
 
         totp_secret = pyotp.random_base32()

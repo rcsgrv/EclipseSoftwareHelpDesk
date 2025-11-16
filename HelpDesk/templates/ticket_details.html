@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% block title %}Ticket Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 900px;"
+     id="ticketDetailsContainer" data-edit-mode="{{ 'true' if edit_mode else 'false'}}">    
+
+  <!-- Back/Delete Ticket Buttons -->
+  <div class="d-flex mb-3 align-items-center">
+    <a href="{{ url_for('home.home') }}" class="btn text-white" style="background-color: #4C6C85;">
+        Back to Dashboard
+    </a>
+    {% if current_user.is_admin %}
+    <form method="POST" action="{{ url_for('tickets.delete_ticket', ticket_id=ticket.id) }}" class="ms-auto">
+      <button type="submit" class="btn btn-danger"
+              onclick="return confirm('Are you sure you want to delete this ticket?');">
+              Delete Ticket
+      </button>
+    </form>
+    {% endif %}
+  </div>
+
+  <!-- Ticket Header -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header text-white" style="background-color: #4C6C85; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <h2 class="mb-0 fw-bold">Ticket #{{ ticket.id }}</h2>
+    </div>
+  </div>
+
+  <!-- Ticket Details Card -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <form id="ticketForm" method="POST" action="{{ url_for('tickets.ticket_details', ticket_id=ticket.id) }}">
+        
+        <!-- Ticket Type -->
+        <div class="'mb-3">
+            <label for="subject" class="form-label fw-semibold px-2 mb-1">Ticket Type</label>
+            <p class="view-mode border rounded p-2 mb-2">{{ ticket.ticket_type }}</p>
+            <select class="form-select edit-mode d-none mb-2" name="ticket_type">
+              {% for t in ['Support Request', 'Feature Request', 'Bug Report'] %}
+                <option value="{{ t }}" {% if (ticket_type | default(ticket.ticket_type)) == t %}selected{% endif %}>{{ t }}</option>
+              {% endfor %}
+            </select>
+        </div>
+
+        <!-- Subject -->
+        <div class="mb-3">
+          <label for="subject" class="form-label fw-semibold px-2 mb-1">Subject</label>
+          <p class="view-mode border rounded p-2 mb-1">{{ ticket.subject }}</p>
+          <input type="text" class="form-control edit-mode d-none" name="subject" 
+                 value="{{ subject | default(ticket.subject) }}" required>
+        </div>
+
+        <!-- Assignee and Estimated Time -->
+        <div class="row mb-3 g-3">
+          <div class="col-md-6">
+            <label for="assignee" class="form-label fw-semibold px-2 mb-1">Assignee</label>
+            <p class="view-mode border rounded p-2 mb-2">
+              {{ ticket.assignee.forename ~ ' ' ~ ticket.assignee.surname if ticket.assignee else 'Unassigned' }}
+            </p>
+            <select class="form-select edit-mode d-none mb-2" name="assignee_id">
+              <option value="">Unassigned</option>
+              {% for user in administrator %}
+                <option value="{{ user.id }}" 
+                  {% if (assignee_id | default(ticket.assignee.id if ticket.assignee else ''))|string == user.id|string %}selected{% endif %}>
+                  {{ user.forename }} {{ user.surname }}
+                </option>
+              {% endfor %}
+            </select>
+
+            <label for="estimated_time" class="form-label fw-semibold px-2 mb-1">Estimated Time</label>
+            <p class="view-mode border rounded p-2 mb-1">
+              {{ "%.2f"|format(ticket.estimated_time) }}
+            </p>
+            <input type="number" step="any" class="form-control edit-mode d-none" 
+                   name="estimated_time" value="{{ estimated_time | default(ticket.estimated_time) }}">
+          </div>
+
+          <!-- Status and Priority -->
+          <div class="col-md-6">
+            <label for="status" class="form-label fw-semibold px-2 mb-1">Status</label>
+            <p class="view-mode border rounded p-2 mb-2">{{ ticket.status }}</p>
+            <select class="form-select edit-mode d-none mb-2" name="status">
+              {% for s in ['Open', 'In Progress', 'On Hold / Pending', 'Resolved', 'Closed'] %}
+                <option value="{{ s }}" {% if (status | default(ticket.status)) == s %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+
+            <label for="priority" class="form-label fw-semibold px-2 mb-1">Priority</label>
+            <p class="view-mode border rounded p-2 mb-1">{{ ticket.priority }}</p>
+            <select class="form-select edit-mode d-none" name="priority">
+              {% for p in ['Low', 'Normal', 'High', 'Critical'] %}
+                <option value="{{ p }}" {% if (priority | default(ticket.priority)) == p %}selected{% endif %}>{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label fw-semibold px-2 mb-1">Description</label>
+          <p class="view-mode border rounded p-2 mb-1" style="min-height: 3em; white-space: pre-wrap;">{{ ticket.description }}</p>
+          <textarea class="form-control edit-mode d-none" name="description" rows="3">{{ description | default(ticket.description) }}</textarea>
+        </div>
+
+        <!-- Created By/Date Created/Updated By/Date Updated Section -->
+        <div class="card bg-light text-center mb-3 py-2">
+          <div class="row small text-muted">
+            <div class="col-3"><strong>Created By:</strong><br>{{ ticket.created_by }}</div>
+            <div class="col-3"><strong>Date Created:</strong><br>{{ ticket.date_created.strftime('%d-%m-%Y %H:%M') }}</div>
+            <div class="col-3"><strong>Updated By:</strong><br>{{ ticket.updated_by if ticket.updated_by else 'N/A' }}</div>
+            <div class="col-3"><strong>Date Updated:</strong><br>{{ ticket.date_updated.strftime('%d-%m-%Y %H:%M') if ticket.date_updated else 'N/A' }}</div>
+          </div>
+        </div>
+
+        <!-- Edit/Save/Cancel Buttons -->
+        {% if current_user.is_admin %}
+        <div class="d-flex justify-content-end gap-2 align-items-center">
+          <button type="button" id="editBtn" class="btn text-white" style="background-color: #4C6C85;">Edit</button>
+          <button type="submit" id="saveBtn" class="btn btn-success d-none">Save</button>
+          <button type="button" id="cancelBtn" class="btn btn-secondary d-none">Cancel</button>
+        </div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  <!-- Comments Section -->
+  <div class="card sm-shadow mb-4">
+    <div class="card-header text-white" style="background-color: #4C6C85;">
+      <h5 class="mb-0">Comments</h5>
+    </div>
+    <div class="card-body">
+      {% if comments %}
+      <ul class="list-group list-group-flush mb-3">
+        {% for comment in comments %}
+          <li class="list-group-item p-3 rounded-3 mb-2" style="background-color: #f8f9fa;">
+            <div class="small text-muted mb-1">
+              <strong>{{ comment.author_fullname }}</strong> 
+              &bull; {{ comment.date_created.strftime('%d-%m-%Y %H:%M:%S') }}
+            </div>
+            <div>{{ comment.comment_text }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <p class="text-muted small mb-3">No comments yet.</p>
+      {% endif %}
+
+      <form method="POST" action="{{ url_for('tickets.ticket_details', ticket_id=ticket.id) }}">
+        <div class="input-group">
+          <input type="text" name="comment_text" class="form-control" placeholder="Add a comment...">
+          <button class="btn text-white" type="submit" style="background-color: #4C6C85;">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- If the user is_admin, then this script will allow for the ticket to be edited. 
+When edit is clicked, all fields switch from view-mode (fields are read-only) to edit-mode (fields are editable). 
+This provides a more dynamic UX compared to taking the user to a new page.
+If validation occurs, the ticket remains in edit mode and fields will retain whatever their input was prior to save being clicked -->
+{% if current_user.is_admin %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('ticketDetailsContainer');
+  const editMode = container.dataset.editMode === 'true';
+
+  const editBtn = document.getElementById('editBtn');
+  const saveBtn = document.getElementById('saveBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const viewFields = document.querySelectorAll('.view-mode');
+  const editFields = document.querySelectorAll('.edit-mode');
+
+  if (editMode) {
+    viewFields.forEach(f => f.classList.add('d-none'));
+    editFields.forEach(f => f.classList.remove('d-none'));
+    editBtn.classList.add('d-none');
+    saveBtn.classList.remove('d-none');
+    cancelBtn.classList.remove('d-none');
+  }
+
+  editBtn.addEventListener('click', () => {
+    viewFields.forEach(f => f.classList.add('d-none'));
+    editFields.forEach(f => f.classList.remove('d-none'));
+    editBtn.classList.add('d-none');
+    saveBtn.classList.remove('d-none');
+    cancelBtn.classList.remove('d-none');
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    viewFields.forEach(f => f.classList.remove('d-none'));
+    editFields.forEach(f => f.classList.add('d-none'));
+    editBtn.classList.remove('d-none');
+    saveBtn.classList.add('d-none');
+    cancelBtn.classList.add('d-none');
+  });
+});
+</script>
+{% endif %}
+{% endblock %}

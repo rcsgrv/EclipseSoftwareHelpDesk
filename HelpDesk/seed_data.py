@@ -65,7 +65,8 @@ def populate_seed_data():
         'Client Contact logs do not link to the client record.',
         'Multiple users report login failures this morning.'
     ]
-
+    
+    ticket_type = ['Support Request', 'Feature Request', 'Bug Report']
     statuses = ['Open', 'In Progress', 'On Hold / Pending', 'Resolved', 'Closed']
     priorities = ['Low', 'Normal', 'High']
     estimated_times = [1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0]
@@ -76,6 +77,7 @@ def populate_seed_data():
         assignee = random.choice(administrator)
 
         ticket = Ticket(
+            ticket_type=random.choice(ticket_type),
             subject=subjects[i],
             description=descriptions[i],
             status=random.choice(statuses),
@@ -83,7 +85,7 @@ def populate_seed_data():
             estimated_time=random.choice(estimated_times),
             created_by=f"{creator.forename} {creator.surname}",
             updated_by=None,
-            date_created=datetime.now(timezone.utc),
+            date_created=datetime.now(),
             date_updated=None,
             user_id=creator.id,
             assignee_id=assignee.id
