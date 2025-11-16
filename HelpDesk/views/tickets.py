@@ -58,13 +58,13 @@ def create_ticket():
 @login_required
 def ticket_details(ticket_id):
     ticket = Ticket.query.filter_by(id=ticket_id).first()
-    admin_users = User.query.filter_by(account_type='Administrator').all()
+    administrator = User.query.filter_by(is_admin=True).all()
 
     if not ticket:
         flash('Ticket not found.', category='error')
         return redirect(url_for('home.home'))
 
-    if ticket.user_id != current_user.id and current_user.account_type != 'Administrator':
+    if ticket.user_id != current_user.id and not current_user.is_admin:
         flash('You do not have permission to view this ticket.', category='error')
         return redirect(url_for('home.home'))
 
@@ -117,12 +117,12 @@ def ticket_details(ticket_id):
         else:
             flash('Comment cannot be empty.', 'error')
     
-    if current_user.account_type == 'Administrator':
+    if current_user.is_admin:
         comments = Comment.query.filter_by(ticket_id=ticket.id).order_by(Comment.date_created.asc()).all()
     else:
         comments = Comment.query.filter_by(ticket_id=ticket.id, user_id=current_user.id).order_by(Comment.date_created.asc()).all()
 
-    return render_template('ticket_details.html', ticket=ticket, comments=comments, admin_users=admin_users)
+    return render_template('ticket_details.html', ticket=ticket, comments=comments, administrator=administrator)
 
 @tickets_bp.route('/delete_ticket/<int:ticket_id>', methods=['POST'])
 @login_required
@@ -133,7 +133,7 @@ def delete_ticket(ticket_id):
         flash('Ticket not found.', category='error')
         return redirect(url_for('home.home'))
 
-    if current_user.account_type != 'Administrator':
+    if not current_user.is_admin:
         flash('You do not have permission to delete this ticket.', category='error')
         return redirect(url_for('tickets.ticket_details', ticket_id=ticket.id))
     

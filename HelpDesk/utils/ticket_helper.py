@@ -15,12 +15,18 @@ def validate_ticket_form(subject, description, status, priority, estimated_time)
         return 'You must select a priority.'
     try:
         estimated_time_val = float(estimated_time)
+
         if estimated_time_val < 1:
             return 'Estimated time cannot be less than 1 hour.'
         if estimated_time_val > 40:
             return 'Estimated time cannot be more than 40 hours.'
+        if '.' in str(estimated_time):
+            decimal_part = str(estimated_time).split('.')[-1]
+            if len(decimal_part) > 2:
+                return 'Estimated time cannot have more than 2 decimal places.'
+            
     except (ValueError, TypeError):
-        return 'Estimated time must be a number.'
+        return 'Estimated time must be a valid number.'
     return None 
 
 def render_ticket_form(template, error, **context):

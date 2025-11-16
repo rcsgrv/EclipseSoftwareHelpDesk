@@ -171,7 +171,7 @@
                                     <span class="badge bg-secondary">{{ ticket.priority }}</span>
                                 {% endif %}
                             </td>
-                            <td class="text-center">{{ ticket.estimated_time or '-' }}</td>
+                            <td class="text-center">{{ "%.2f"|format(ticket.estimated_time) }}</td>
                             <td class="text-center">{{ ticket.date_created.strftime('%d-%m-%Y %H:%M:%S') }}</td>
                             <td class="text-center">
                                 <a href="{{ url_for('tickets.ticket_details', ticket_id=ticket.id) }}" class="btn btn-sm text-white" style="background-color: #4C6C85;">View</a>

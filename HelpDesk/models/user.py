@@ -8,7 +8,7 @@ class User(db.Model, UserMixin):
     forename = db.Column(db.String(50))
     surname = db.Column(db.String(50))
     email = db.Column(db.String(150), unique=True)
-    password = db.Column(db.String(20))
+    password = db.Column(db.String(16))
     is_admin = db.Column(db.Boolean, default=False)
     totp_secret = db.Column(db.String(16))
     is_2fa_enabled = db.Column(db.Boolean, default=False)

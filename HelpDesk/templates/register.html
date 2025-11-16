@@ -10,61 +10,61 @@
     <div class="card-body p-4">
       <form method="POST">
         <div class="mb-3">
-          <label for="forename" class="form-label">Forename</label>
+          <label for="subject" class="form-label fw-semibold px-2 mb-1">Forename<span
+                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                 title="Please enter your forename"> *</span></label>
           <input 
             type="text" 
             class="form-control" 
             id="forename" 
             name="forename" 
-            value="{{ forename | default('') }}" 
-            placeholder="Enter your forename"
-          >
+            value="{{ forename | default('') }}">
         </div>
 
         <div class="mb-3">
-          <label for="surname" class="form-label">Surname</label>
+          <label for="subject" class="form-label fw-semibold px-2 mb-1">Surname<span
+                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                 title="Please enter your surname"> *</span></label>
           <input 
             type="text" 
             class="form-control" 
             id="surname" 
             name="surname" 
-            value="{{ surname | default('') }}" 
-            placeholder="Enter your surname"
-          >
+            value="{{ surname | default('') }}">
         </div>
 
         <div class="mb-3">
-          <label for="email" class="form-label">Email Address</label>
+          <label for="subject" class="form-label fw-semibold px-2 mb-1">Email Address<span
+                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                 title="Please enter your email address. You will need this to login"> *</span></label>
           <input 
             type="email" 
             class="form-control" 
             id="email" 
             name="email" 
-            value="{{ email | default('') }}" 
-            placeholder="Enter your email address"
-          >
+            value="{{ email | default('') }}">
         </div>
 
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
+          <label for="subject" class="form-label fw-semibold px-2 mb-1">Password<span
+                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                 title="Please enter a password"> *</span></label>
           <input 
             type="password" 
             class="form-control" 
             id="password" 
-            name="password" 
-            placeholder="Enter your password"
-          >
+            name="password">
         </div>
 
         <div class="mb-3">
-          <label for="password_confirm" class="form-label">Confirm Password</label>
+          <label for="subject" class="form-label fw-semibold px-2 mb-1">Confirm Password<span
+                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                 title="Please confirm your password"> *</span></label>
           <input 
             type="password" 
             class="form-control" 
             id="password_confirm" 
-            name="password_confirm" 
-            placeholder="Confirm your password"
-          >
+            name="password_confirm">
         </div>
 
         <div class="d-grid">

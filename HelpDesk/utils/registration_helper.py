@@ -4,6 +4,7 @@ import re
 # This function validates all fields on the registration page (register.html).
 
 name_regex = re.compile(r"^[A-Za-z][A-Za-z\s'-]*$")
+password_regex = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$")
 
 def validate_registration_form(forename, surname, email, password, password_confirm, user):
     if not forename or len(forename.strip()) < 1:
@@ -29,8 +30,10 @@ def validate_registration_form(forename, surname, email, password, password_conf
         return 'The email you have provided is already associated with an account.'
     if not password or len(password) < 8:
         return 'Password must be at least 8 characters long.'
-    if len(password.strip()) > 20:
-        return 'Password cannot exceed 20 characters.'
+    if not password_regex.fullmatch(password):
+        return 'Password must be 8–16 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*#?&).'
+    if len(password.strip()) > 16:
+        return 'Password cannot exceed 16 characters.'
     if password != password_confirm:
         return 'Your passwords do not match.'
     return None
