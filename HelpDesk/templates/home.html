@@ -15,7 +15,11 @@
             {% else %}
                 <h2 class="mb-1">Good evening, {{ user.forename }}!</h2>
             {% endif %}
-            <p class="mb-0">Here's a summary of your tickets and activity.</p>
+            {% if current_user.is_admin == True %}
+                <p class="mb-0">Here's a summary of all tickets and user activity in the system.</p>
+            {% else %}
+                <p class="mb-0">Here's a summary of your tickets and activity.</p>
+            {% endif %}
         </div>
     </div>
 
@@ -204,10 +208,16 @@
     </nav>
 
     {% else %}
-    <div class="alert alert-info text-center" role="alert">
-        No tickets are associated with this user.
-    </div>
+    {% if filters_applied %}
+        <div class="alert alert-warning text-center" role="alert">
+            No tickets match your filter criteria.
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            You have not raised any tickets yet.
+        </div>
     {% endif %}
+{% endif %}
 
 </div>
 {% endblock %}

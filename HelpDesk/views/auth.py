@@ -74,12 +74,12 @@ def register():
         email = request.form.get('email')
         forename = request.form.get('forename')
         surname = request.form.get('surname')
-        account_type = request.form.get('account_type')
+        is_admin = request.form.get('is_admin')
         password = request.form.get('password')
         password_confirm = request.form.get('password_confirm')
 
         user = User.query.filter_by(email=email).first()
-        error = validate_registration_form(forename, surname, email, account_type, password, password_confirm, user)
+        error = validate_registration_form(forename, surname, email, password, password_confirm, user)
         if error:
             flash(error, category='error')
             return render_template(
@@ -88,7 +88,7 @@ def register():
                 forename=forename,
                 surname=surname,
                 email=email,
-                account_type=account_type
+                is_admin=is_admin
             )
 
         totp_secret = pyotp.random_base32()
@@ -97,7 +97,7 @@ def register():
             'email': email,
             'forename': forename,
             'surname': surname,
-            'account_type': account_type,
+            'is_admin': is_admin,
             'password': password,
             'totp_secret': totp_secret
         }
@@ -158,11 +158,11 @@ def setup_2fa():
                 return redirect(url_for('home.home'))
 
             elif pending_user:
-                new_user = user(
+                new_user = User(
                     email=pending_user['email'],
                     forename=pending_user['forename'],
                     surname=pending_user['surname'],
-                    account_type=pending_user['account_type'],
+                    is_admin=False,
                     password=generate_password_hash(pending_user['password'], method='pbkdf2:sha256'),
                     totp_secret=pending_user['totp_secret'],
                     is_2fa_enabled=True

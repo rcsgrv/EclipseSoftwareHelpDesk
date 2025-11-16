@@ -5,7 +5,7 @@ import re
 
 name_regex = re.compile(r"^[A-Za-z][A-Za-z\s'-]*$")
 
-def validate_registration_form(forename, surname, email, password, password_confirm, account_type, user):
+def validate_registration_form(forename, surname, email, password, password_confirm, user):
     if not forename or len(forename.strip()) < 1:
         return 'Forename cannot be blank.'
     if not name_regex.fullmatch(forename.strip()):
@@ -33,8 +33,4 @@ def validate_registration_form(forename, surname, email, password, password_conf
         return 'Password cannot exceed 20 characters.'
     if password != password_confirm:
         return 'Your passwords do not match.'
-    if not account_type:
-        return 'You must select an account type.'
-    if account_type not in ('Customer Account', 'Eclipse Staff Account'):
-        return 'Invalid account type selected.'
     return None

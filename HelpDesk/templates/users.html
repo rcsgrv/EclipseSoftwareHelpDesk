@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+    <!-- External Users Table -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header text-white" style="background-color: #4C6C85;">
+            <h5 class="mb-0">External Users</h5>
+        </div>
+        <div class="card-body">
+            {% if non_administrator_data %}
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle mb-0">
+                    <thead class="custom-table-header text-center">
+                        <tr>
+                            <th>Forename</th>
+                            <th>Surname</th>
+                            <th>Reported Issues</th>
+                            <th>Admin?</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in non_administrator_data %}
+                        <tr>
+                            <td class="text-center">{{ u.forename }}</td>
+                            <td class="text-center">{{ u.surname }}</td>
+                            <td class="text-center">
+                                <span class="badge bg-primary">{{ u.ticket_count }}</span>
+                            </td>
+                            <td class="text-center">
+                                <form method="POST" action="{{ url_for('users.update_admin') }}">
+                                    <input type="hidden" name="user_id" value="{{ u.id }}">
+                                    <input type="checkbox" name="is_admin" {% if u.is_admin %}checked{% endif %} onchange="this.form.submit()">
+                                </form>
+                            </td>
+                            <td class="text-center">
+                                <form method="POST" action="{{ url_for('users.delete_user', user_id=u.id) }}" class="d-inline"
+                                      onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center mb-0">No external users found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Internal Staff Table -->
+    <div class="card shadow-sm">
+        <div class="card-header text-white" style="background-color: #4C6C85;">
+            <h5 class="mb-0">Eclipse Staff</h5>
+        </div>
+        <div class="card-body">
+            {% if administrator_data %}
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle mb-0">
+                    <thead class="custom-table-header text-center">
+                        <tr>
+                            <th>Forename</th>
+                            <th>Surname</th>
+                            <th>Assigned Issues</th>
+                            <th>Admin?</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in administrator_data %}
+                        <tr>
+                            <td class="text-center">{{ u.forename }}</td>
+                            <td class="text-center">{{ u.surname }}</td>
+                            <td class="text-center"><span class="badge bg-primary">{{ u.ticket_count }}</span></td>
+                            <td class="text-center">
+                                {% if u.id != current_user.id %}
+                                <form method="POST" action="{{ url_for('users.update_admin') }}">
+                                    <input type="hidden" name="user_id" value="{{ u.id }}">
+                                    <input type="checkbox" name="is_admin" {% if u.is_admin %}checked{% endif %} onchange="this.form.submit()">
+                                </form>
+                                {% else %}
+                                <span>✓</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if u.id != current_user.id %}
+                                <form method="POST" action="{{ url_for('users.delete_user', user_id=u.id) }}" class="d-inline"
+                                      onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                                {% else %}
+                                <span>N/A</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-center mb-0">No Eclipse Staff found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -15,11 +15,11 @@ def home():
     query = Ticket.query
 
     # Filters tickets based on user role. Administrators see all tickets, users see only their own.
-    if current_user.account_type != 'Administrator':
+    if current_user.is_admin == False:
         query = query.filter_by(user_id=current_user.id)
 
     filters = {}
-    if current_user.account_type != 'Administrator':
+    if current_user.is_admin == False:
         filters['user_id'] = current_user.id
 
     open_tickets = Ticket.query.filter_by(**filters, status='Open').count()
@@ -32,7 +32,6 @@ def home():
     status = request.args.get('status')
     priority = request.args.get('priority')
     assignee_filter = request.args.get('assignee')
-    estimated_time = request.args.get('estimated_time')
     date_filter = request.args.get('date_created')
 
     # Filtering logic
@@ -50,8 +49,8 @@ def home():
                 assignee_id = int(assignee_filter)
                 query = query.filter(Ticket.assignee_id == assignee_id)
             except ValueError:
-                pass 
-
+                pass
+         
     # Date range filters (i.e. Tickets created today, last 7 days, or this month)
     now = datetime.now()
     if date_filter == 'Today':
@@ -62,6 +61,14 @@ def home():
     elif date_filter == 'This Month':
         start = now.replace(day=1)
         query = query.filter(Ticket.date_created >= start)
+
+    # Determine if any filters are applied
+    filters_applied = any([
+    status and status != "",
+    priority and priority != "",
+    assignee_filter and assignee_filter != "",
+    date_filter and date_filter != ""
+    ])
 
     # Pagination
     tickets = query.order_by(Ticket.id.desc()).paginate(page=page, per_page=per_page)
@@ -89,5 +96,6 @@ def home():
         filter_status=status,
         filter_priority=priority,
         filter_date=date_filter,
+        filters_applied=filters_applied,
         datetime=datetime
     )
