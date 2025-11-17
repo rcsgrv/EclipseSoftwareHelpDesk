@@ -41,10 +41,7 @@ def create_app(config_class=None):
     return app
 
 def create_database(app):
-    db_path = path.join(app.instance_path, DB_NAME)
-    if not path.exists(db_path):
-        os.makedirs(app.instance_path, exist_ok=True)
-        with app.app_context():
-            db.create_all()
-            populate_seed_data()
-        print('Database Created.')
+    with app.app_context():
+        db.create_all()
+        print("Postgres database tables created (if not already existing).")
+        populate_seed_data()

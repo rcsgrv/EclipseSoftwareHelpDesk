@@ -62,11 +62,13 @@ def login_2fa():
 
     return render_template('login_2fa.html', user=user, qr_b64=qr_b64)
 
-@auth_bp.route('/logout')
+@auth_bp.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
-    logout_user()
-    return redirect(url_for('auth.login'))
+    if request.method == 'POST':
+        logout_user()
+        return redirect(url_for('auth.login'))
+    return render_template('logout_confirm.html')
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():

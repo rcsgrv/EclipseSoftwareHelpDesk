@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: eclipsesoftwarehelpdesk_app
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://eclipsesoftwarehelpdesk:password@db:5432/helpdeskdb
+      - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: eclipsesoftwarehelpdesk_db
+    restart: always
+    environment:
+      POSTGRES_USER: eclipsesoftware
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: eclipsesoftwarehelpdeskdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

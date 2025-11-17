@@ -13,7 +13,8 @@
         <!-- Ticket Type -->
         <div class="mb-3">
           <label for="ticket_type" class="form-label fw-semibold px-2 mb-1">Ticket Type<span 
-                 class="text-danger"> *</span></label>
+                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                 title="Please select the type of ticket that you want to create"> *</span></label>
           <select class="form-select" id="ticket_type" name="ticket_type" required>
             {% for t in ['Support Request', 'Feature Request', 'Bug Report'] %}
               <option value="{{ t }}" {% if (ticket_type | default('Support Request')) == t %}selected{% endif %}>{{ t }}</option>
@@ -23,58 +24,65 @@
 
         <!-- Subject -->
         <div class="mb-3">
-          <label for="subject" class="form-label fw-semibold px-2 mb-1">Subject<span class="text-danger"> *</span></label>
+          <label for="subject" class="form-label fw-semibold px-2 mb-1">Subject<span 
+                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                 title="Please provide a concise title or summary of your issue or request"> *</span></label>
           <input 
             type="text" 
             class="form-control" 
             id="subject" 
             name="subject" 
-            value="{{ subject | default('') }}" 
-            required>
+            value="{{ subject | default('') }}">
         </div>
 
         <!-- Description -->
         <div class="mb-3">
-          <label for="description" class="form-label fw-semibold px-2 mb-1">Description<span class="text-danger"> *</span></label>
+          <label for="description" class="form-label fw-semibold px-2 mb-1">Description<span 
+                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" 
+                 title="Please provide a detailed description of your issue or request"> *</span></label>
           <textarea 
               class="form-control" 
               id="description" 
               name="description" 
-              rows="3"
-              required>{{ description | default('') }}</textarea>
+              rows="3">{{ description | default('') }}</textarea>
         </div>
 
         {% if current_user.is_admin %}
           <!-- Status -->
           <div class="mb-3">
-            <label for="status" class="form-label fw-semibold px-2 mb-1">Status<span class="text-danger"> *</span></label>
-            <select class="form-select" id="status" name="status" required>
-              {% for s in ['Open', 'In Progress', 'On Hold / Pending', 'Resolved', 'Closed'] %}
-                <option value="{{ s }}" {% if (status | default('Open')) == s %}selected{% endif %}>{{ s }}</option>
-              {% endfor %}
-            </select>
-          </div>
+            <label for="status" class="form-label fw-semibold px-2 mb-1">Status<span 
+                   class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" 
+                   title="Please select a status for the ticket."> *</span></label>
+                <select class="form-select" name="status"> 
+                {% for s in ['Open', 'In Progress', 'On Hold / Pending', 'Resolved', 'Closed'] %}
+                    <option value="{{ s }}" {% if (status | default('Open')) == s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+                </select>
+            </div>
 
           <!-- Priority -->
           <div class="mb-3">
-            <label for="priority" class="form-label fw-semibold px-2 mb-1">Priority<span class="text-danger"> *</span></label>
-            <select class="form-select" id="priority" name="priority" required>
-              {% for p in ['Low', 'Normal', 'High'] %}
-                <option value="{{ p }}" {% if (priority | default('Normal')) == p %}selected{% endif %}>{{ p }}</option>
-              {% endfor %}
-            </select>
-          </div>
+            <label for="priority" class="form-label fw-semibold px-2 mb-1">Priority<span 
+                   class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                   title="Please select a priority level for the ticket."> *</span></label>
+                <select class="form-select" name="status">
+                {% for p in ['Low', 'Normal', 'High'] %}
+                    <option value="{{ p }}" {% if (priority | default('Normal')) == p %}selected{% endif %}>{{ p }}</option>
+                {% endfor %}
+                </select>
+            </div>
 
           <!-- Estimated Time -->
           <div class="mb-3">
-            <label for="estimated_time" class="form-label fw-semibold px-2 mb-1">Estimated Time (hours)<span class="text-danger"> *</span></label>
+            <label for="estimated_time" class="form-label fw-semibold px-2 mb-1">Estimated Time (hours)<span 
+                   class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                   title="Please provide an estimate for how long it will take to action this ticket."> *</span></label>
             <input type="number" 
                    class="form-control" 
                    id="estimated_time" 
                    name="estimated_time"
                    step="any"
-                   value="{{ estimated_time | default('4') }}"
-                   required>
+                   value="{{ estimated_time | default('4') }}">
           </div>
         {% else %}
           <input type="hidden" name="status" value="{{ status | default('Open') }}">
@@ -89,10 +97,5 @@
       </form>
     </div>
   </div>
-
-  <script>
-      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-      tooltipTriggerList.map(function(el) { return new bootstrap.Tooltip(el); });
-  </script>
 </div>
 {% endblock %}

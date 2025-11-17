@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Logout{% endblock %}
+
+{% block content %}
+<div class="container my-5" style="max-width: 450px;">
+  <div class="card shadow-sm border-0">
+    <div class="card-header text-white text-center">
+      <h4 class="mb-0">Confirm Logout</h4>
+    </div>
+    <div class="card-body py-4 px-4 text-center">
+      <p>Are you sure you want to logout?</p>
+      <form method="POST" class="d-flex justify-content-center gap-2 mt-3">
+        <button type="submit" class="btn btn-primary">Yes, Logout</button>
+        <a href="{{ url_for('home.home') }}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
