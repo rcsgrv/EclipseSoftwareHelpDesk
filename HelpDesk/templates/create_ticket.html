@@ -38,12 +38,13 @@
         <!-- Description -->
         <div class="mb-3">
           <label for="description" class="form-label fw-semibold px-2 mb-1">Description<span 
-                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" 
+                 class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
                  title="Please provide a detailed description of your issue or request"> *</span></label>
           <textarea 
               class="form-control" 
               id="description" 
               name="description" 
+              style="resize: none;"
               rows="3">{{ description | default('') }}</textarea>
         </div>
 
@@ -51,7 +52,7 @@
           <!-- Status -->
           <div class="mb-3">
             <label for="status" class="form-label fw-semibold px-2 mb-1">Status<span 
-                   class="text-danger" data-bs-toggle="tooltip" data-bs-placement="top" 
+                   class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
                    title="Please select a status for the ticket."> *</span></label>
                 <select class="form-select" name="status"> 
                 {% for s in ['Open', 'In Progress', 'On Hold / Pending', 'Resolved', 'Closed'] %}

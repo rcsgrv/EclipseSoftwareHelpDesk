@@ -34,9 +34,11 @@
         
         <!-- Ticket Type -->
         <div class="'mb-3">
-            <label for="subject" class="form-label fw-semibold px-2 mb-1">Ticket Type</label>
+            <label for="ticket_type" class="form-label fw-semibold px-2 mb-1">Ticket Type<span 
+                   class="edit-mode d-none text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                   title="Please select the type of ticket that you want to create"> *</span></label>
             <p class="view-mode border rounded p-2 mb-2">{{ ticket.ticket_type }}</p>
-            <select class="form-select edit-mode d-none mb-2" name="ticket_type">
+            <select class="form-select edit-mode d-none mb-2" name="ticket_type" data-original="{{ ticket.ticket_type }}">
               {% for t in ['Support Request', 'Feature Request', 'Bug Report'] %}
                 <option value="{{ t }}" {% if (ticket_type | default(ticket.ticket_type)) == t %}selected{% endif %}>{{ t }}</option>
               {% endfor %}
@@ -45,20 +47,25 @@
 
         <!-- Subject -->
         <div class="mb-3">
-          <label for="subject" class="form-label fw-semibold px-2 mb-1">Subject</label>
+          <label for="subject" class="form-label fw-semibold px-2 mb-1">Subject<span 
+                 class="edit-mode d-none text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                 title="Please provide a concise title or summary of your issue or request"> *</span></label>
           <p class="view-mode border rounded p-2 mb-1">{{ ticket.subject }}</p>
           <input type="text" class="form-control edit-mode d-none" name="subject" 
-                 value="{{ subject | default(ticket.subject) }}" required>
+                 value="{{ subject | default(ticket.subject) }}"
+                 data-original="{{ ticket.subject }}">
         </div>
 
         <!-- Assignee and Estimated Time -->
         <div class="row mb-3 g-3">
           <div class="col-md-6">
-            <label for="assignee" class="form-label fw-semibold px-2 mb-1">Assignee</label>
+            <label for="assignee" class="form-label fw-semibold px-2 mb-1">Assignee<span 
+                   class="edit-mode d-none text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                   title="Please select an assignee."> *</span></label>
             <p class="view-mode border rounded p-2 mb-2">
               {{ ticket.assignee.forename ~ ' ' ~ ticket.assignee.surname if ticket.assignee else 'Unassigned' }}
             </p>
-            <select class="form-select edit-mode d-none mb-2" name="assignee_id">
+            <select class="form-select edit-mode d-none mb-2" name="assignee_id" data-original="{{ ticket.assignee.id if ticket.assignee else '' }}">
               <option value="">Unassigned</option>
               {% for user in administrator %}
                 <option value="{{ user.id }}" 
@@ -68,27 +75,34 @@
               {% endfor %}
             </select>
 
-            <label for="estimated_time" class="form-label fw-semibold px-2 mb-1">Estimated Time</label>
+            <label for="estimated_time" class="form-label fw-semibold px-2 mb-1">Estimated Time<span 
+                   class="edit-mode d-none text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                   title="Please provide an estimate for how long it will take to action this ticket."> *</span></label>
             <p class="view-mode border rounded p-2 mb-1">
               {{ "%.2f"|format(ticket.estimated_time) }}
             </p>
             <input type="number" step="any" class="form-control edit-mode d-none" 
-                   name="estimated_time" value="{{ estimated_time | default(ticket.estimated_time) }}">
+                   name="estimated_time" value="{{ estimated_time | default(ticket.estimated_time) }}"
+                   data-original="{{ ticket.estimated_time }}">
           </div>
 
           <!-- Status and Priority -->
           <div class="col-md-6">
-            <label for="status" class="form-label fw-semibold px-2 mb-1">Status</label>
+            <label for="status" class="form-label fw-semibold px-2 mb-1">Status<span 
+                   class="edit-mode d-none text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                   title="Please select a status for the ticket."> *</span></label>
             <p class="view-mode border rounded p-2 mb-2">{{ ticket.status }}</p>
-            <select class="form-select edit-mode d-none mb-2" name="status">
+            <select class="form-select edit-mode d-none mb-2" name="status" data-original="{{ ticket.status }}">
               {% for s in ['Open', 'In Progress', 'On Hold / Pending', 'Resolved', 'Closed'] %}
                 <option value="{{ s }}" {% if (status | default(ticket.status)) == s %}selected{% endif %}>{{ s }}</option>
               {% endfor %}
             </select>
 
-            <label for="priority" class="form-label fw-semibold px-2 mb-1">Priority</label>
+            <label for="priority" class="form-label fw-semibold px-2 mb-1">Priority<span 
+                   class="edit-mode d-none text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                   title="Please select a priority level for the ticket."> *</span></label>
             <p class="view-mode border rounded p-2 mb-1">{{ ticket.priority }}</p>
-            <select class="form-select edit-mode d-none" name="priority">
+            <select class="form-select edit-mode d-none" name="priority" data-original="{{ ticket.priority }}">
               {% for p in ['Low', 'Normal', 'High', 'Critical'] %}
                 <option value="{{ p }}" {% if (priority | default(ticket.priority)) == p %}selected{% endif %}>{{ p }}</option>
               {% endfor %}
@@ -98,9 +112,11 @@
 
         <!-- Description -->
         <div class="mb-3">
-          <label for="description" class="form-label fw-semibold px-2 mb-1">Description</label>
-          <p class="view-mode border rounded p-2 mb-1" style="min-height: 3em; white-space: pre-wrap;">{{ ticket.description }}</p>
-          <textarea class="form-control edit-mode d-none" name="description" rows="3">{{ description | default(ticket.description) }}</textarea>
+          <label for="description" class="form-label fw-semibold px-2 mb-1">Description<span 
+                 class="edit-mode d-none text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
+                 title="Please provide a detailed description of your issue or request"> *</span></label>
+          <p class="view-mode border rounded p-2 mb-1" style="height: 4.5em; overflow-y: auto; white-space: pre-wrap;" >{{ ticket.description }}</p>
+          <textarea class="form-control edit-mode d-none" name="description" style="resize: none;" rows="3" data-original="{{ ticket.description }}">{{ description | default(ticket.description) }}</textarea>
         </div>
 
         <!-- Created By/Date Created/Updated By/Date Updated Section -->
@@ -116,8 +132,8 @@
         <!-- Edit/Save/Cancel Buttons -->
         {% if current_user.is_admin %}
         <div class="d-flex justify-content-end gap-2 align-items-center">
-          <button type="button" id="editBtn" class="btn text-white" style="background-color: #4C6C85;">Edit</button>
-          <button type="submit" id="saveBtn" class="btn btn-success d-none">Save</button>
+          <button type="button" id="editBtn" class="btn btn-primary" style="background-color: #4C6C85;">Edit</button>
+          <button type="submit" id="saveBtn" class="btn btn-primary d-none">Save</button>
           <button type="button" id="cancelBtn" class="btn btn-secondary d-none">Cancel</button>
         </div>
         {% endif %}
@@ -173,29 +189,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewFields = document.querySelectorAll('.view-mode');
   const editFields = document.querySelectorAll('.edit-mode');
 
-  if (editMode) {
+  const enterEditMode = () => {
     viewFields.forEach(f => f.classList.add('d-none'));
     editFields.forEach(f => f.classList.remove('d-none'));
     editBtn.classList.add('d-none');
     saveBtn.classList.remove('d-none');
     cancelBtn.classList.remove('d-none');
-  }
+  };
 
-  editBtn.addEventListener('click', () => {
-    viewFields.forEach(f => f.classList.add('d-none'));
-    editFields.forEach(f => f.classList.remove('d-none'));
-    editBtn.classList.add('d-none');
-    saveBtn.classList.remove('d-none');
-    cancelBtn.classList.remove('d-none');
-  });
-
-  cancelBtn.addEventListener('click', () => {
+  const exitEditMode = () => {
     viewFields.forEach(f => f.classList.remove('d-none'));
-    editFields.forEach(f => f.classList.add('d-none'));
+    editFields.forEach(f => {
+      f.classList.add('d-none');
+      // Reset value from data-original
+      if (f.tagName === 'INPUT' || f.tagName === 'TEXTAREA' || f.tagName === 'SELECT') {
+        f.value = f.dataset.original;
+      }
+    });
     editBtn.classList.remove('d-none');
     saveBtn.classList.add('d-none');
     cancelBtn.classList.add('d-none');
-  });
+  };
+
+  if (editMode) enterEditMode();
+
+  editBtn.addEventListener('click', enterEditMode);
+  cancelBtn.addEventListener('click', exitEditMode);
 });
 </script>
 {% endif %}
