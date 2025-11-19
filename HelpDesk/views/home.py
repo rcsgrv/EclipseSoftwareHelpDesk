@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
-from HelpDesk.models import Ticket, User
-from HelpDesk import db
+from ..models import Ticket, User
+from .. import db
 
 home_bp = Blueprint('home', __name__)
 

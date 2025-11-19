@@ -5,8 +5,8 @@ from sqlalchemy.orm import relationship
 class Ticket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ticket_type = db.Column(db.String(20), nullable=False)
-    subject = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text(500), nullable=False)
+    subject = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text(), nullable=False)
     status = db.Column(db.String(20), nullable=False)
     priority = db.Column(db.String(20), nullable=False)
     estimated_time = db.Column(db.Float, nullable=False)

@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    comment_text = db.Column(db.Text(500), nullable=False)
+    comment_text = db.Column(db.Text(), nullable=False)
     date_created = db.Column(db.DateTime(timezone=True), default=func.current_timestamp())
     author_fullname = db.Column(db.String(100), nullable=False)
     

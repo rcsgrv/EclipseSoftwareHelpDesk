@@ -48,7 +48,7 @@
             <div class="container mt-3 text-center">
                 {% for category, message in messages %}
                     <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}" role="alert">
-                        {{ message }}
+                        {{ message|safe }}
                     </div>
                 {% endfor %}
             </div>

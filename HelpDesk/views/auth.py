@@ -2,10 +2,10 @@ import pyotp
 import pyqrcode
 import io
 import base64
-from flask import send_file, Blueprint, render_template, request, flash, redirect, url_for, session
+from flask import send_file, Blueprint, render_template, request, flash, redirect, url_for, session, current_app
 from flask_login import login_user, login_required, logout_user, current_user
 from ..models import User
-from HelpDesk.utils.registration_helper import validate_registration_form
+from ..utils.registration_helper import validate_registration_form
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..extensions import db
 
@@ -27,6 +27,11 @@ def login():
             user = User.query.filter_by(email=email).first()
 
             if user and check_password_hash(user.password, password):
+                if current_app.config.get("DISABLE_2FA"):
+                    login_user(user, remember=True)
+                    flash("Logged in (2FA bypassed for testing)", "success")
+                    return redirect(url_for('home.home'))
+                
                 session['pending_login_2fa_user_id'] = user.id
                 if user.is_2fa_enabled == True:
                     return redirect(url_for('auth.login_2fa'))

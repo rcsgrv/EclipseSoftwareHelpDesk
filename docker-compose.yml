@@ -3,27 +3,35 @@ version: "3.9"
 services:
   web:
     build: .
-    container_name: eclipsesoftwarehelpdesk_app
+    container_name: EclipseSoftwareHelpDesk_app
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=postgresql+psycopg2://eclipsesoftwarehelpdesk:password@db:5432/helpdeskdb
-      - SECRET_KEY=${SECRET_KEY}
+      DATABASE_URL: postgresql+psycopg2://EclipseSoftware:password@db:5432/EclipseSoftwareHelpDeskDB
+      SECRET_KEY: ${SECRET_KEY}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: postgres:15
-    container_name: eclipsesoftwarehelpdesk_db
+    container_name: EclipseSoftwareHelpDesk_db
     restart: always
     environment:
-      POSTGRES_USER: eclipsesoftware
+      POSTGRES_USER: EclipseSoftware
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: eclipsesoftwarehelpdeskdb
+      POSTGRES_DB: EclipseSoftwareHelpDeskDB
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U EclipseSoftware -d EclipseSoftwareHelpDeskDB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
 volumes:
   postgres_data:

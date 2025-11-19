@@ -12,7 +12,6 @@ def users():
         flash("You do not have permission to view this page.", "error")
         return redirect(url_for('home.home'))
 
-    # Build user data dynamically
     non_administrator_data = []
     administrator_data = []
 
@@ -47,31 +46,50 @@ def update_admin():
         flash("You do not have permission to update user roles.", "error")
         return redirect(url_for('users.users'))
 
-    user_id = request.form.get('user_id')
-    if not user_id:
-        flash("User not specified.", "error")
+    # Get all user Ids
+    user_ids = request.form.getlist('user_ids')  
+
+    if not user_ids:
+        flash("You have not selected any users to update.", "error")
         return redirect(url_for('users.users'))
 
-    user = User.query.get_or_404(user_id)
+    promoted_users = []
+    demoted_users = []
 
-    # This will prevent self-demotion, even though the checkbox will not be shown for the current user
-    if user.id == current_user.id:
-        flash("You cannot change your own admin status.", "error")
-        return redirect(url_for('users.users'))
-    
-    # This determines the new admin status based on the checkbox
-    new_is_admin = True if request.form.get('is_admin') == 'on' else False
+    for uid in user_ids:
+        user = User.query.get(uid)
+        if not user or user.id == current_user.id:
+            continue  
 
-    # If demoting from admin to non-admin, unassign their tickets
-    if user.is_admin and not new_is_admin:
-        Ticket.query.filter_by(assignee_id=user.id).update({'assignee_id': None})
-        db.session.commit()
+        # This will check the checkbox value for the user
+        new_is_admin = True if request.form.get(f'is_admin_{uid}') == 'on' else False
 
-    user.is_admin = new_is_admin
+        if user.is_admin != new_is_admin:
+            if user.is_admin and not new_is_admin:
+                # Demotion
+                Ticket.query.filter_by(assignee_id=user.id).update({'assignee_id': None})
+                demoted_users.append(f"{user.forename} {user.surname}")
+            elif not user.is_admin and new_is_admin:
+                # Promotion
+                promoted_users.append(f"{user.forename} {user.surname}")
+
+            user.is_admin = new_is_admin
+
     db.session.commit()
-    flash(f"{user.forename} {user.surname} has had their admin status updated.", "success")
-    return redirect(url_for('users.users'))
 
+    # Prepare flash messages
+    role_messages = []
+    if promoted_users:
+        role_messages.append(f"The following users have been promoted to administrators: {', '.join(promoted_users)}")
+    if demoted_users:
+        role_messages.append(f"The following users have been demoted from administrators: {', '.join(demoted_users)}")
+
+    if role_messages:
+        flash("<br>".join(role_messages), "success")
+    else:
+        flash("No changes have been made.", "info")
+
+    return redirect(url_for('users.users'))
 
 @users_bp.route('/delete_user/<int:user_id>', methods=['POST'])
 @login_required

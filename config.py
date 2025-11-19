@@ -1,12 +1,12 @@
 import os
 
-# Configuration class for the application
-
 class Config:
+    # Use environment variables if set, otherwise fallback to defaults
     SECRET_KEY = os.getenv('SECRET_KEY', 'devsecret123')
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///EclipseSoftwareHelpDesk.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
     
-    # SECRET_KEY = os.getenv('SECRET_KEY')
-    # SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
-    # SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # If DATABASE_URL is set (for Docker), use it
+    # Otherwise, fallback to a local SQLite file
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        'DATABASE_URL', 'sqlite:///EclipseSoftwareHelpDesk.db'
+    )
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
