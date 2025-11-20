@@ -30,7 +30,7 @@ def test_delete_ticket(logged_in_admin, admin_ticket):
     response = logged_in_admin.post(f"/delete_ticket/{admin_ticket.id}", follow_redirects=True)
     assert b'Ticket deleted successfully.' in response.data
 
-def test_ticket_access_control(logged_in_non_admin, admin_ticket):
+def test_non_admin_ticket_access_control(logged_in_non_admin, admin_ticket):
     response = logged_in_non_admin.get(f"/ticket_details/{admin_ticket.id}", follow_redirects=True)
     assert b'do not have permission' in response.data    
 

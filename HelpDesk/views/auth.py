@@ -2,7 +2,7 @@ import pyotp
 import pyqrcode
 import io
 import base64
-from flask import send_file, Blueprint, render_template, request, flash, redirect, url_for, session, current_app
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session, current_app
 from flask_login import login_user, login_required, logout_user, current_user
 from ..models import User
 from ..utils.registration_helper import validate_registration_form
