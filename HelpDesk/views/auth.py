@@ -1,13 +1,13 @@
 import pyotp
 import pyqrcode
-import io
 import base64
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session, current_app
 from flask_login import login_user, login_required, logout_user, current_user
 from ..models import User
+from ..extensions import db
 from ..utils.registration_helper import validate_registration_form
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..extensions import db
+
 
 auth_bp = Blueprint('auth', __name__)
 

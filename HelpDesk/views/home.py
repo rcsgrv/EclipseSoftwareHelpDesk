@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 from ..models import Ticket, User
-from .. import db
+from ..extensions import db
 
 home_bp = Blueprint('home', __name__)
 

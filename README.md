@@ -95,7 +95,7 @@ The seed data user accounts will also need to setup two-factor authentication be
 
 ## Testing
 
-The Eclipse Software Help Desk includes comprehensive unit tests covering key functionality such as user authentication, ticket creation, viewing, editing, and deletion. These tests use the Pytest framework along with mocking techniques to isolate components and validate behaviour without requiring a live database or full application context.
+The Eclipse Software Help Desk includes comprehensive integration tests covering key functionality such as user authentication, ticket creation, viewing, editing, and deletion. These tests use the Pytest framework along with mocking techniques to isolate components and validate behaviour without requiring a live database or full application context.
 
 ### Unit Tests
 To run the unit tests locally, ensure your virtual environment is activated and dependencies are installed, then run the following in the terminal: 
