@@ -1,3 +1,3 @@
-from .User import User
-from .Comment import Comment
-from .Ticket import Ticket
+from .user import User
+from .comment import Comment
+from .ticket import Ticket
