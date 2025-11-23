@@ -6,22 +6,6 @@ import time
 from sqlalchemy.exc import OperationalError
 from .seed_data import populate_seed_data
 
-DB_NAME = "EclipseSoftwareHelpDesk.db"
-
-def wait_for_database(app):
-    attempts = 10
-    for i in range(attempts):
-        try:
-            with app.app_context():
-                db.session.execute(text("SELECT 1"))
-            print("Database is ready.")
-            return
-        except OperationalError as e:
-            print(f"Database not ready (attempt {i+1}/{attempts})...")
-            time.sleep(3)
-    raise RuntimeError("Database connection could not be established.")
-
-
 def create_app(config_class=None):
     app = Flask(__name__)
     if config_class:
@@ -33,9 +17,6 @@ def create_app(config_class=None):
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
-
-    # Wait for postgres
-    wait_for_database(app)
 
     # Register Blueprints
     from .views.home import home_bp
