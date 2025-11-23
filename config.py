@@ -1,11 +1,10 @@
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 class Config:
-    # Use environment variables if set, otherwise fallback to defaults
-    SECRET_KEY = os.getenv('SECRET_KEY', 'devsecret123')
+    SECRET_KEY = os.getenv('SECRET_KEY')
     
-    # If DATABASE_URL is set (for Docker), ustherwise, fallback to a local SQLite file
-    SQLALCHEMY_DATABASE_URI = os.getenv(
-        'DATABASE_URL', 'sqlite:///EclipseSoftwareHelpDesk.db'
-    )
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False

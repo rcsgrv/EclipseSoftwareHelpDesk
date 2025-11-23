@@ -6,7 +6,7 @@ The Eclipse Software Help Desk is a lightweight web application built with Flask
 
 - Create, view, edit, and delete tickets
 - Facilitate communication between users with comments
-- Secure administration registration and login with password hashing
+- Secure registration and login with password hashing
 - Responsive and accessible user interface styled with CSS and HTML
 - Flash alerts for real-time feedback on user actions (success/error)
 - Paginated ticket listings 
@@ -61,17 +61,48 @@ https://github.com/rcsgrv/EclipseSoftwareHelpDesk.git
 
 To install required packages run the following in the terminal: 
 
+pip install --upgrade pip
 pip install -r requirements.txt
 
-### Running the Application
+### Environment Configuration
+
+For security purposes, the .env file has not been committed.
+
+1. Create a copy of the example file:
+
+copy .env.example .env
+
+2. Open .env and ensure that it contains:
+
+SECRET_KEY=developmentsecretkey123
+DATABASE_URL=sqlite:///EclipseSoftwareHelpDesk.db
+
+This ensures that the application has a secret key and a database to connect to.
+
+### Running the Application Locally
 
 To start the Flask development server run the following in the terminal: 
 
 py main.py
 
-This will launch the app at http://127.0.0.1:5000/.
+This will launch the application at:
 
-Alternatively, the application is currently hosted on Render and can be accessed via the following URL: 
+http://127.0.0.1:5000/.
+
+### Running the Application with Docker
+
+If Docker is installed, run the following in the terminal:
+
+docker build -t eclipsesoftwarehelpdesk .
+docker run -p 5000:5000 eclipsesoftwarehelpdesk
+
+This will launch the application at:
+
+http://localhost:5000/
+
+### Deployed Application
+
+The application is currently hosted on Render and can be accessed via the following URL: 
 
 ### Seed Data
 
@@ -91,18 +122,25 @@ Where {n} ranges from 3 to 10 (e.g. user3@test.com / Password3!, user4@test.com 
 
 To improve security, two-factor authentication has been implemented. Upon registration, users will be prompted to scan a QR code using Google Authenticator. Google Authenticator will provide a 6 digit code that should be inputted when a user logs in to the system.
 
-The seed data user accounts will also need to setup two-factor authentication before they log in to the system. 
+The seed data user accounts will need to setup two-factor authentication before they can log in to the system. 
 
 ## Testing
 
-The Eclipse Software Help Desk includes comprehensive integration tests covering key functionality such as user authentication, ticket creation, viewing, editing, and deletion. These tests use the Pytest framework along with mocking techniques to isolate components and validate behaviour without requiring a live database or full application context.
+The Eclipse Software Help Desk includes comprehensive integration tests covering key functionality such as user authentication, ticket creation, viewing, editing, deletion, and security features.
 
-### Unit Tests
-To run the unit tests locally, ensure your virtual environment is activated and dependencies are installed, then run the following in the terminal: 
+To run the tests locally, ensure your virtual environment is activated and dependencies are installed, then run the following in the terminal: 
 
-pytest
+$env:PYTHONPATH = "."
+pytest tests
 
-This command will discover and run all tests in the `tests/` directory and provide a detailed report of the results.
+This will discover and run all tests in the `tests` directory and provide a detailed report of the results.
 
-### Manual Testing
-In addition to the unit tests, the application has been thoroughly manually tested to ensure that all user interactions, including registration, login, ticket management, user management, and permissions, function as expected across typical use cases.
+## Manual Testing
+
+The application has been manually tested to ensure that all user interactions, including registration, login, ticket management, user management, and permissions, function as expected across typical use cases.
+
+## Continuous Integration / Continous Deployment (CI/CD)
+
+- Continuous Integration: Every push or pull request to main triggers GitHub Actions. This runs tests using Pytest, with coverage reports generated in XML format.
+- Continuous Deployment: Upon successful tests, the pipeline automatically deploys the Dockerised application to Render.
+- Docker: The application is containerised to ensure consistency between local and production environments.

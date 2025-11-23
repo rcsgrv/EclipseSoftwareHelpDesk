@@ -62,5 +62,4 @@ def create_app(config_class=None):
 def create_database(app):
     with app.app_context():
         db.create_all()
-        print("Postgres database tables created (if not already existing).")
         populate_seed_data()

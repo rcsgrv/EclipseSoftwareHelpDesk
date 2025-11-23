@@ -6,7 +6,7 @@ from .models import User, Ticket
 
 def populate_seed_data():
     if User.query.first():
-        print("Seed data already exists.")
+        print("Seed data already exists within the database.")
         return
     
     # 10 Users
@@ -94,4 +94,4 @@ def populate_seed_data():
 
     db.session.add_all(tickets)
     db.session.commit()
-    print("Seeded 10 users and 10 tickets.")
+    print("10 users and 10 tickets have been created within the database.")
