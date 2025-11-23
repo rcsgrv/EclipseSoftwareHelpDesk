@@ -60,9 +60,9 @@ def create_ticket():
 @tickets_bp.route('/ticket_details/<int:ticket_id>', methods=['GET', 'POST'])
 @login_required
 def ticket_details(ticket_id):
-    ticket = Ticket.query.filter_by(id=ticket_id).first()
-    administrator = User.query.filter_by(is_admin=True).all()
-    comments = Comment.query.filter_by(ticket_id=ticket.id).order_by(Comment.date_created.asc()).all()
+    ticket = db.session.query(Ticket).filter_by(id=ticket_id).first()
+    administrator = db.session.query(User).filter_by(is_admin=True).all()
+    comments = db.session.query(Comment).filter_by(ticket_id=ticket.id).order_by(Comment.date_created.asc()).all()
 
     if not ticket:
         flash('Ticket not found.', category='error')
@@ -137,7 +137,7 @@ def ticket_details(ticket_id):
 @tickets_bp.route('/delete_ticket/<int:ticket_id>', methods=['POST'])
 @login_required
 def delete_ticket(ticket_id):
-    ticket = Ticket.query.filter_by(id=ticket_id).first()
+    ticket = db.session.query(Ticket).filter_by(id=ticket_id).first()
 
     if not ticket:
         flash('Ticket not found.', category='error')

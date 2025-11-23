@@ -15,10 +15,10 @@ def users():
     non_administrator_data = []
     administrator_data = []
 
-    users = User.query.all()
+    users = db.session.query(User).all()
     for u in users:
-        reported_tickets = Ticket.query.filter(Ticket.user_id == u.id).count()
-        assigned_tickets = Ticket.query.filter(Ticket.assignee_id == u.id).count()
+        reported_tickets = db.session.query(Ticket).filter(Ticket.user_id == u.id).count()
+        assigned_tickets = db.session.query(Ticket).filter(Ticket.assignee_id == u.id).count()
 
         data = {
             'id': u.id,
@@ -57,7 +57,7 @@ def update_admin():
     demoted_users = []
 
     for uid in user_ids:
-        user = User.query.get(uid)
+        user = db.session.query(User).get(uid)
         if not user or user.id == current_user.id:
             continue  
 
@@ -67,7 +67,7 @@ def update_admin():
         if user.is_admin != new_is_admin:
             if user.is_admin and not new_is_admin:
                 # Demotion
-                Ticket.query.filter_by(assignee_id=user.id).update({'assignee_id': None})
+                db.session.query(Ticket).filter_by(assignee_id=user.id).update({'assignee_id': None})
                 demoted_users.append(f"{user.forename} {user.surname}")
             elif not user.is_admin and new_is_admin:
                 # Promotion
@@ -98,11 +98,11 @@ def delete_user(user_id):
         flash("You do not have permission to delete users.", "error")
         return redirect(url_for('users.users'))
 
-    user = User.query.get_or_404(user_id)
+    user = db.session.query(User).get_or_404(user_id)
 
-    Ticket.query.filter_by(user_id=user.id).update({'user_id': None})
-    Ticket.query.filter_by(assignee_id=user.id).update({'assignee_id': None})
-    Comment.query.filter_by(user_id=user.id).update({'user_id': None})
+    db.session.query(Ticket).filter_by(user_id=user.id).update({'user_id': None})
+    db.session.query(Ticket).filter_by(assignee_id=user.id).update({'assignee_id': None})
+    db.session.query(Comment).filter_by(user_id=user.id).update({'user_id': None})
 
     db.session.delete(user)
     db.session.commit()

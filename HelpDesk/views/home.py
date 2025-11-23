@@ -12,7 +12,7 @@ def home():
     page = request.args.get('page', 1, type=int)
     per_page = 10
 
-    query = Ticket.query
+    query = db.session.query(Ticket)
 
     # Filters tickets based on user role. Administrators see all tickets, users see only their own.
     if current_user.is_admin == False:
@@ -22,11 +22,11 @@ def home():
     if current_user.is_admin == False:
         filters['user_id'] = current_user.id
 
-    open_tickets = Ticket.query.filter_by(**filters, status='Open').count()
-    in_progress_tickets = Ticket.query.filter_by(**filters, status='In Progress').count()
-    on_hold_pending_tickets = Ticket.query.filter_by(**filters, status='On Hold / Pending').count()
-    resolved_tickets = Ticket.query.filter_by(**filters, status='Resolved').count()
-    closed_tickets = Ticket.query.filter_by(**filters, status='Closed').count()
+    open_tickets = query.filter_by(**filters, status='Open').count()
+    in_progress_tickets = query.filter_by(**filters, status='In Progress').count()
+    on_hold_pending_tickets = query.filter_by(**filters, status='On Hold / Pending').count()
+    resolved_tickets = query.filter_by(**filters, status='Resolved').count()
+    closed_tickets = query.filter_by(**filters, status='Closed').count()
 
     # Filter parameters
     ticket_type_filter = request.args.get('ticket_type')

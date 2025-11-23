@@ -37,7 +37,7 @@ def admin_user(app):
         )
         db.session.add(user)
         db.session.commit()
-        return User.query.get(user.id)
+        return db.session.get(User, user.id)
 
 @pytest.fixture
 def non_admin_user(app):
@@ -51,7 +51,7 @@ def non_admin_user(app):
         )
         db.session.add(user)
         db.session.commit()
-        return User.query.get(user.id)
+        return db.session.get(User, user.id)
     
 @pytest.fixture
 def logged_in_admin(client, admin_user):
@@ -87,7 +87,7 @@ def non_admin_ticket(app, non_admin_user):
         )
         db.session.add(non_admin_ticket)
         db.session.commit()
-        return Ticket.query.get(non_admin_ticket.id)
+        return db.session.get(Ticket, non_admin_ticket.id)
     
 @pytest.fixture
 def admin_ticket(app, admin_user):
@@ -104,4 +104,4 @@ def admin_ticket(app, admin_user):
         )
         db.session.add(admin_ticket)
         db.session.commit()
-        return Ticket.query.get(admin_ticket.id)    
+        return db.session.get(Ticket, admin_ticket.id)    

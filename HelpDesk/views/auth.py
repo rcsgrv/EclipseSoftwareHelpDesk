@@ -24,7 +24,7 @@ def login():
         elif not password:
             flash('Please enter your password.', category='error')
         else:
-            user = User.query.filter_by(email=email).first()
+            user = db.session.query(User).filter_by(email=email).first()
 
             if user and check_password_hash(user.password, password):
                 if current_app.config.get("DISABLE_2FA"):
@@ -49,7 +49,7 @@ def login_2fa():
         flash('Please login first.', category='error')
         return redirect(url_for('auth.login'))
 
-    user = User.query.get(user_id)
+    user = db.session.get(User, user_id)
     totp = pyotp.TOTP(user.totp_secret)
 
     if request.method == 'POST':
@@ -85,7 +85,7 @@ def register():
         password = request.form.get('password')
         password_confirm = request.form.get('password_confirm')
 
-        user = User.query.filter_by(email=email).first()
+        user = db.session.query(User).filter_by(email=email).first()
         error = validate_registration_form(forename, surname, email, password, password_confirm, user)
         if error:
             flash(error, category='error')
@@ -123,7 +123,7 @@ def setup_2fa():
     # if user_id exists, it is an existing user logging in
     # if user.totp_secret does not exist, then we generate one and commit it to the db
     if user_id:
-        user = User.query.get(user_id)
+        user = db.session.get(User, user_id)
         if not user:
             flash('User not found. Please log in again.', 'error')
             return redirect(url_for('auth.login'))
