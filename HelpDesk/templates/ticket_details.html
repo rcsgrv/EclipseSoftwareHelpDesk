@@ -123,9 +123,9 @@
         <div class="card bg-light text-center mb-3 py-2">
           <div class="row small text-muted">
             <div class="col-3"><strong>Created By:</strong><br>{{ ticket.created_by }}</div>
-            <div class="col-3"><strong>Date Created:</strong><br>{{ ticket.date_created.strftime('%d-%m-%Y %H:%M') }}</div>
+            <div class="col-3"><strong>Date Created:</strong><br>{{ ticket.date_created.strftime('%d-%m-%Y %H:%M:%S') }}</div>
             <div class="col-3"><strong>Updated By:</strong><br>{{ ticket.updated_by if ticket.updated_by else 'N/A' }}</div>
-            <div class="col-3"><strong>Date Updated:</strong><br>{{ ticket.date_updated.strftime('%d-%m-%Y %H:%M') if ticket.date_updated else 'N/A' }}</div>
+            <div class="col-3"><strong>Date Updated:</strong><br>{{ ticket.date_updated.strftime('%d-%m-%Y %H:%M:%S') if ticket.date_updated else 'N/A' }}</div>
           </div>
         </div>
 
@@ -152,7 +152,7 @@
         {% for comment in comments %}
           <li class="list-group-item p-3 rounded-3 mb-2" style="background-color: #f8f9fa;">
             <div class="small text-muted mb-1">
-              <strong>{{ comment.author_fullname }}</strong> 
+              <strong>{{ comment.created_by }}</strong> 
               &bull; {{ comment.date_created.strftime('%d-%m-%Y %H:%M:%S') }}
             </div>
             <div>{{ comment.comment_text }}</div>
