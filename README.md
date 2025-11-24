@@ -66,16 +66,14 @@ pip install -r requirements.txt
 
 ### Environment Configuration
 
-For security purposes, the .env file has not been committed.
-
-1. Create a copy of the example file:
+For security purposes, the .env file has not been committed. A copy of .env.example will need to be created by running the following in the terminal:
 
 copy .env.example .env
 
-2. Open .env and ensure that it contains:
+Once the .env file is created, open it and ensure that it contains:
 
 SECRET_KEY=developmentsecretkey123
-DATABASE_URL=sqlite:///EclipseSoftwareHelpDesk.db
+DATABASE_URL=sqlite:///developmentdatabase.db
 
 This ensures that the application has a secret key and a database to connect to.
 
@@ -145,4 +143,3 @@ The application has been manually tested to ensure that all user interactions, i
 
 - Continuous Integration: Every push or pull request to main triggers GitHub Actions. This builds the application and runs tests using Pytest, with coverage reports generated in XML format.
 - Continuous Deployment: Upon successful tests, the pipeline automatically deploys the Dockerised application to Render.
-- Docker: The application is containerised to ensure consistency between local and production environments.

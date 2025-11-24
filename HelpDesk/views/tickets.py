@@ -123,7 +123,7 @@ def ticket_details(ticket_id):
         else:    
             new_comment = Comment(
                 comment_text=comment_text,
-                author_fullname=f"{current_user.forename} {current_user.surname}",
+                created_by=f"{current_user.forename} {current_user.surname}",
                 user_id=current_user.id,
                 ticket_id=ticket.id
             )

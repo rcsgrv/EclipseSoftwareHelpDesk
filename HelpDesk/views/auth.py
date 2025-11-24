@@ -13,6 +13,10 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        flash("You are already logged in.", "info")
+        return redirect(url_for('home.home'))
+    
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -29,7 +33,7 @@ def login():
             if user and check_password_hash(user.password, password):
                 if current_app.config.get("DISABLE_2FA"):
                     login_user(user, remember=True)
-                    flash("Logged in (2FA bypassed for testing)", "success")
+                    flash("You have logged in successfully (2FA bypassed for testing)", "success")
                     return redirect(url_for('home.home'))
                 
                 session['pending_login_2fa_user_id'] = user.id
@@ -44,9 +48,13 @@ def login():
 
 @auth_bp.route('/login_2fa', methods=['GET', 'POST'])
 def login_2fa():
+    if current_user.is_authenticated:
+        flash("You are already logged in.", "info")
+        return redirect(url_for('home.home'))
+
     user_id = session.get('pending_login_2fa_user_id')
     if not user_id:
-        flash('Please login first.', category='error')
+        flash('No pending login found.', category='error')
         return redirect(url_for('auth.login'))
 
     user = db.session.get(User, user_id)
@@ -77,6 +85,10 @@ def logout():
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        flash("You already have a registered account.", "info")
+        return redirect(url_for('home.home'))
+    
     if request.method == 'POST':
         email = request.form.get('email')
         forename = request.form.get('forename')
@@ -114,6 +126,9 @@ def register():
 
 @auth_bp.route('/setup_2fa', methods=['GET', 'POST'])
 def setup_2fa():
+    if current_user.is_authenticated:
+        flash("Your account already has 2FA setup.", "info")
+        return redirect(url_for('home.home'))
     # user_id handles users that already have an account but do not have 2fa setup
     user_id = session.get('pending_login_2fa_user_id') 
     # pending_user handles new users registering for an account

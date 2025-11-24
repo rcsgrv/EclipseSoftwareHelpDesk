@@ -1,4 +1,4 @@
-# This function validates all fields on the edit ticket page and the create ticket page (create_ticket.html and edit_ticket.html).
+# This function validates all fields on the ticket details page and the create ticket page (create_ticket.html and ticket_details.html).
 
 def validate_ticket_form(ticket_type, subject, description, status, priority, estimated_time):
     if not ticket_type:

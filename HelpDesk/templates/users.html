@@ -121,14 +121,15 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const saveBtn = document.getElementById('save-users-btn');
-    // This Get all checkboxes inside the form
+    // This selects all checkboxes inside the form
     const checkboxes = document.querySelectorAll('#users-form input[type="checkbox"]');
 
     // This stores the original state of the checkbox in a data attribute
     checkboxes.forEach(cb => {
         cb.dataset.original = cb.checked ? 'true' : 'false';
     });
-
+    // This function checks if any checkbox state has changed
+    // and shows or hides the save button depending on whether there are changes
     function checkForChanges() {
         let changed = false;
         checkboxes.forEach(cb => {
@@ -138,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         saveBtn.style.display = changed ? 'block' : 'none';
     }
-
+    // Add event listeners to checkboxes to detect changes
     checkboxes.forEach(cb => cb.addEventListener('change', checkForChanges));
 
     checkForChanges();
