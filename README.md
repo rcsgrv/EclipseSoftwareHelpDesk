@@ -104,6 +104,8 @@ http://localhost:5000/
 
 The application is currently hosted on Render and can be accessed via the following URL: 
 
+https://eclipsesoftwarehelpdesk.onrender.com
+
 ### Seed Data
 
 When the application is ran for the first time, seed data will be generated. This seed data consists of 10 users and 10 tickets. 
@@ -135,12 +137,12 @@ pytest tests
 
 This will discover and run all tests in the `tests` directory and provide a detailed report of the results.
 
-## Manual Testing
+### Manual Testing
 
 The application has been manually tested to ensure that all user interactions, including registration, login, ticket management, user management, and permissions, function as expected across typical use cases.
 
 ## Continuous Integration / Continous Deployment (CI/CD)
 
-- Continuous Integration: Every push or pull request to main triggers GitHub Actions. This runs tests using Pytest, with coverage reports generated in XML format.
+- Continuous Integration: Every push or pull request to main triggers GitHub Actions. This builds the application and runs tests using Pytest, with coverage reports generated in XML format.
 - Continuous Deployment: Upon successful tests, the pipeline automatically deploys the Dockerised application to Render.
 - Docker: The application is containerised to ensure consistency between local and production environments.

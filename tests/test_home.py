@@ -40,7 +40,6 @@ def test_ticket_display_admin(logged_in_admin, admin_ticket, non_admin_ticket):
 
     assert "summary of all tickets" in html
 
-
 def test_homepage_filters(logged_in_non_admin, non_admin_user, app):
     """Test filtering by ticket_type, status, priority, and date."""
     client = logged_in_non_admin
@@ -92,7 +91,6 @@ def test_homepage_filters(logged_in_non_admin, non_admin_user, app):
     assert "Support Ticket" in html
     assert "Bug Ticket" in html
 
-
 def test_no_tickets_message(logged_in_non_admin, app):
     """Test the message when no tickets exist."""
     with app.app_context():
@@ -104,7 +102,6 @@ def test_no_tickets_message(logged_in_non_admin, app):
     html = response.data.decode()
 
     assert "You have not raised any tickets yet" in html
-
 
 def test_pagination(logged_in_non_admin, app, non_admin_user):
     per_page = 10
