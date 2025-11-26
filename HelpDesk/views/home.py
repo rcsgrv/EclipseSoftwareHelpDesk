@@ -4,6 +4,11 @@ from flask_login import login_required, current_user
 from ..models import Ticket, User
 from ..extensions import db
 
+# Route logic was informed a tutorial by Tech With Tim (Tech With Tim, 2021).
+
+# This Blueprint handles the home page functionality, including displaying tickets with filtering options.
+# It enforces user authentication to ensure only logged-in users can access the home page.
+
 home_bp = Blueprint('home', __name__)
 
 @home_bp.route('/')

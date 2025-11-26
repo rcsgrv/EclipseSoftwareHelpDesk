@@ -82,12 +82,13 @@
                                         <input type="hidden" name="user_ids" value="{{ u.id }}">
                                         <input type="checkbox" name="is_admin_{{ u.id }}" {% if u.is_admin %}checked{% endif %}>
                                     {% else %}
-                                        <!-- Disable the checkbox for the current user to prevent them from altering their own admin status                                   -->
+                                        <!-- Checkbox disabled for the current user to prevent them from altering their own admin status                                   -->
                                         <input type="hidden" name="user_ids" value="{{ u.id }}">
                                         <input type="checkbox" name="is_admin{{ u.id }}" {% if u.is_admin %}checked{% endif %} disabled>
                                     {% endif %}
                                 </td>
                                 <td class="text-center">
+                                    <!-- Prevent current user from deleting their own account -->
                                     {% if u.id != current_user.id %}
                                     <form method="POST" action="{{ url_for('users.delete_user', user_id=u.id) }}" class="d-inline"
                                           onsubmit="return confirm('Are you sure you want to delete this user?');">
@@ -139,7 +140,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         saveBtn.style.display = changed ? 'block' : 'none';
     }
-    // Add event listeners to checkboxes to detect changes
     checkboxes.forEach(cb => cb.addEventListener('change', checkForChanges));
 
     checkForChanges();

@@ -6,9 +6,10 @@
     <div class="card-header text-white text-center" style="background-color: #4C6C85;">
       <h3 class="mb-0">Create Your Account</h3>
     </div>
-
+     
     <div class="card-body p-4">
       <form method="POST">
+        <!-- Forename --> 
         <div class="mb-3">
           <label for="subject" class="form-label fw-semibold px-2 mb-1">Forename<span
                  class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
@@ -20,7 +21,7 @@
             name="forename" 
             value="{{ forename | default('') }}">
         </div>
-
+        <!-- Surname -->
         <div class="mb-3">
           <label for="subject" class="form-label fw-semibold px-2 mb-1">Surname<span
                  class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
@@ -32,7 +33,7 @@
             name="surname" 
             value="{{ surname | default('') }}">
         </div>
-
+        <!-- Email -->
         <div class="mb-3">
           <label for="subject" class="form-label fw-semibold px-2 mb-1">Email Address<span
                  class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
@@ -44,7 +45,7 @@
             name="email" 
             value="{{ email | default('') }}">
         </div>
-
+        <!-- Password -->
         <div class="mb-3">
           <label for="subject" class="form-label fw-semibold px-2 mb-1">Password<span
                  class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
@@ -55,7 +56,7 @@
             id="password" 
             name="password">
         </div>
-
+        <!-- Confirm Password -->
         <div class="mb-3">
           <label for="subject" class="form-label fw-semibold px-2 mb-1">Confirm Password<span
                  class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
@@ -66,13 +67,13 @@
             id="password_confirm" 
             name="password_confirm">
         </div>
-
+        <!-- Register Button -->
         <div class="d-grid">
           <button type="submit" class="btn btn-primary">
             Register
           </button>
         </div>
-
+        <!-- Login URL -->
         <p class="text-center mt-3 mb-0">
           Already have an account? 
           <a href="{{ url_for('auth.login') }}" class="fw-bold" style="color: #4C6C85;">Login here</a>

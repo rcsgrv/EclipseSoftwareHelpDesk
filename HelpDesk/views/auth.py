@@ -8,6 +8,14 @@ from ..extensions import db
 from ..utils.registration_helper import validate_registration_form
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# Route logic was informed a tutorial by Tech With Tim (Tech With Tim, 2021).
+# PyOTP usage was informed by a tutorial from NeuralNine (NeuralNine, 2022).
+
+# This Blueprint handles login and authentication.
+# Form validation is used to ensure data integrity before database operations are performed, and appropriate user feedback is provided via flash messages.
+# 2FA setup and verification is implemented using TOTP via the PyOTP library.
+# User authentication state is managed using Flask-Login.
+# Password hashing is implemented using Werkzeug security utilities. 
 
 auth_bp = Blueprint('auth', __name__)
 

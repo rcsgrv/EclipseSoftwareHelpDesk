@@ -5,6 +5,8 @@ from ..models import Comment, Ticket, User
 from ..utils.ticket_helper import validate_ticket_form, render_ticket_form
 from ..extensions import db
 
+# Route logic was informed a tutorial by Tech With Tim (Tech With Tim, 2021).
+
 # This Blueprint handles ticket management functionality including creating, viewing, editing,and deleting tickets.
 # This Blueprint enforces user authentication and access control, allowing only ticket owners to view their own tickets.
 # Administrators are able to view and edit tickets regardless of ownership.

@@ -18,7 +18,7 @@ def populate_seed_data():
 
     users = []
     for i in range(10):
-        is_admin = i < 2  # first two users are admins
+        is_admin = i < 2  # first two users are administrators
        
         user = User(
             forename=forenames[i],

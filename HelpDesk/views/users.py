@@ -3,6 +3,11 @@ from ..models import User, Ticket, Comment
 from ..extensions import db
 from flask_login import login_required, current_user
 
+# Route logic was informed a tutorial by Tech With Tim (Tech With Tim, 2021).
+
+# This Blueprint handles user management functionality including viewing, updating, and deleting users.
+# It enforces administrator-only access to ensure only authorised users can manage user accounts.
+
 users_bp = Blueprint('users', __name__)
 
 @users_bp.route('/users')
