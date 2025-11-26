@@ -103,7 +103,7 @@
                    title="Please select a priority level for the ticket."> *</span></label>
             <p class="view-mode border rounded p-2 mb-1">{{ ticket.priority }}</p>
             <select class="form-select edit-mode d-none" name="priority" data-original="{{ ticket.priority }}">
-              {% for p in ['Low', 'Normal', 'High', 'Critical'] %}
+              {% for p in ['Low', 'Normal', 'High'] %}
                 <option value="{{ p }}" {% if (priority | default(ticket.priority)) == p %}selected{% endif %}>{{ p }}</option>
               {% endfor %}
             </select>

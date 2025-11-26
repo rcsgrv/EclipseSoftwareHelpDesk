@@ -66,7 +66,7 @@
             <label for="priority" class="form-label fw-semibold px-2 mb-1">Priority<span 
                    class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" 
                    title="Please select a priority level for the ticket."> *</span></label>
-                <select class="form-select" name="status">
+                <select class="form-select" name="priority">
                 {% for p in ['Low', 'Normal', 'High'] %}
                     <option value="{{ p }}" {% if (priority | default('Normal')) == p %}selected{% endif %}>{{ p }}</option>
                 {% endfor %}

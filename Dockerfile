@@ -1,3 +1,8 @@
+# Dockerfile creating was informed by a tutorial by ArjanCodes (ArjanCodes, 2025).
+
+# The creation of a Dockerfile for a Flask application with Gunicorn
+# This Dockerfile sets up a Python environment, installs dependencies, and runs the Flask app using Gunicorn.
+
 FROM python:3.13-slim
 
 # Create a working directory

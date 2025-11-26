@@ -1,5 +1,7 @@
 Afflerbaugh, K. (2024) *Automate Your Workflow: A Guide to CI/CD with GitHub Actions*. Available at: https://blog.devops.dev/automate-your-workflow-a-guide-to-ci-cd-with-github-actions-3f395d60ba69 (Accesed: 29 October 2025).
 
+ArjanCodes (2025) *This Is How You Write an Efficient Python Dockerfile*. Available at: https://www.youtube.com/watch?v=tc713anE3UY&t=125s (Accessed: 14 November 2025).
+
 Code with Josh (2024) *Flask Full Course: Build Stunning Web Apps Fast | Python Flask Tutorial*. 28 March 2024. Available at: https://www.youtube.com/watch?v=45P3xQPaYxc (Accessed: 21 October 2025).
 
 NeuralNine (2022) *Two-Factor Authentication (2FA) in Python*. 03 December 2022. Available at: https://www.youtube.com/watch?v=o0XZZkI69E8 (Accessed: 24 October 2025).

@@ -8,7 +8,7 @@ from ..extensions import db
 from ..utils.registration_helper import validate_registration_form
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# Route logic was informed a tutorial by Tech With Tim (Tech With Tim, 2021).
+# Route logic was informed by a tutorial by Tech With Tim (Tech With Tim, 2021).
 # PyOTP usage was informed by a tutorial from NeuralNine (NeuralNine, 2022).
 
 # This Blueprint handles login and authentication.
