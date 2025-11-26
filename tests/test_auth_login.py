@@ -4,7 +4,7 @@ def test_login_invalid_credentials(client):
         "email": "incorrectemail@test.com",
         "password": "incorrectpassword"
     }, follow_redirects=True)
-    assert b'Incorrect username or password' in response.data
+    assert b'Incorrect email or password.' in response.data
 
 # Tests that login succeeds with valid credentials
 def test_login_success(client, non_admin_user):

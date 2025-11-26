@@ -2,7 +2,7 @@
 def test_register_redirect_when_logged_in(logged_in_non_admin):
     response = logged_in_non_admin.get("/register", follow_redirects=True)
 
-    assert b'You already have a registered account.' in response.data   
+    assert b'You have already created an account.' in response.data   
 
 # Tests that accessing the login page when already logged in redirects to home page
 def test_login_redirect_when_logged_in(logged_in_non_admin):
@@ -20,7 +20,7 @@ def test_login_2fa_redirect_when_logged_in(logged_in_non_admin):
 def test_setup_2fa_redirect_when_logged_in(logged_in_non_admin):
     response = logged_in_non_admin.get("/setup_2fa", follow_redirects=True)
 
-    assert b'Your account already has 2FA setup.' in response.data   
+    assert b'You have already setup 2FA.' in response.data   
 
 # Tests that accessing the logout page requires a logged in user and redirects to login page when not authenticated
 def test_logout_redirect_when_not_logged_in(client):
@@ -44,7 +44,7 @@ def test_ticket_details_page_requires_login(client, non_admin_ticket):
 def test_setup_2fa_page_requires_login(client):
     response = client.get("/setup_2fa", follow_redirects=True)
 
-    assert b'No pending registration or login found.' in response.data
+    assert b'No pending 2FA setup found.' in response.data
 
 # Tests that accessing the login_2fa page requires a logged in user and redirects to login page when not authenticated
 def test_login_2fa_page_requires_login(client):

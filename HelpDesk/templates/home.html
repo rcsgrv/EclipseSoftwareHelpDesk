@@ -116,7 +116,7 @@
 
             <!-- Apply Filters Button -->
             <div class="col-6 col-md-4 col-lg-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-sm text-white w-100" style="background-color: #4C6C85;">Apply Filters</button>
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
             </div>
 
         </form>
@@ -124,8 +124,8 @@
 
     <!-- Create Ticket Button -->
     <div class="col-12 col-lg-2 d-flex justify-content-lg-end mt-2 mt-lg-0">
-        <a href="{{ url_for('tickets.create_ticket') }}" class="btn btn-lg text-white shadow w-100" 
-           style="background-color: #4C6C85; padding-left: 1.5rem; padding-right: 1.5rem;">
+        <a href="{{ url_for('tickets.create_ticket') }}" class="btn btn-primary btn-lg shadow w-100" 
+           style="padding-left: 1.5rem; padding-right: 1.5rem;">
             Create Ticket
         </a>
     </div>
@@ -195,7 +195,7 @@
                             <td class="text-center">{{ "%.2f"|format(ticket.estimated_time) }}</td>
                             <td class="text-center">{{ ticket.date_created.strftime('%d-%m-%Y %H:%M') }}</td>
                             <td class="text-center">
-                                <a href="{{ url_for('tickets.ticket_details', ticket_id=ticket.id) }}" class="btn btn-sm text-white" style="background-color: #4C6C85;">View</a>
+                                <a href="{{ url_for('tickets.ticket_details', ticket_id=ticket.id) }}" class="btn btn-primary btn-sm">View</a>
                             </td>
                         </tr>
                         {% endfor %}

@@ -132,7 +132,7 @@
         <!-- Edit/Save/Cancel Buttons -->
         {% if current_user.is_admin %}
         <div class="d-flex justify-content-end gap-2 align-items-center">
-          <button type="button" id="editBtn" class="btn btn-primary" style="background-color: #4C6C85;">Edit</button>
+          <button type="button" id="editBtn" class="btn btn-primary">Edit</button>
           <button type="submit" id="saveBtn" class="btn btn-primary d-none">Save</button>
           <button type="button" id="cancelBtn" class="btn btn-secondary d-none">Cancel</button>
         </div>
@@ -166,7 +166,7 @@
       <form method="POST" action="{{ url_for('tickets.ticket_details', ticket_id=ticket.id) }}">
         <div class="input-group">
           <input type="text" name="comment_text" class="form-control" placeholder="Add a comment...">
-          <button class="btn text-white" type="submit" style="background-color: #4C6C85;">Add</button>
+          <button class="btn btn-primary" type="submit">Add</button>
         </div>
       </form>
     </div>

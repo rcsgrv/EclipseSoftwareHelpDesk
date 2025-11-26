@@ -6,14 +6,17 @@ The Eclipse Software Help Desk is a lightweight web application built with Flask
 
 - Create, view, edit, and delete tickets
 - Facilitate communication between users with comments
-- Secure registration and login with password hashing
-- Responsive and accessible user interface styled with CSS and HTML
+- Secure registration and login with password hashing and two-factor authentication (2FA)
+- Role-base access control (RBAC) to enhance security by enforcing the principle of least privilege
+- User management allowing for the promotion/demotion of user roles
+- Responsive and accessible user interface designed with CSS, HTML, and JavaScript
 - Flash alerts for real-time feedback on user actions (success/error)
 - Paginated ticket listings 
 - Dynamic ticket forms with input validation
 - Modular and maintainable codebase using Flask blueprints
 - Built-in SQLite database managed via SQLAlchemy ORM (Object Relational Mapper)
 - Clean separation of concerns between models, routes, and templates
+- Integration tests covering core functionality developed using Pytest
 
 ## Technologies Used
 
@@ -109,8 +112,10 @@ https://eclipsesoftwarehelpdesk.onrender.com
 When the application is ran for the first time, seed data will be generated. This seed data consists of 10 users and 10 tickets. 
 
 - The first 2 users have administrative access and will have the following credentials:
-- - Email Address: user1@test.com
-- - Password: Password1!
+- - Email Address: user{n}@test.com
+- - Password: Password{n}!
+
+Where {n} ranges from 1 to 2 (e.g. user1@test.com / Password1! and user2@test.com / Password2!).
 
 - The remaining 9 users have non-administrative access, following the same pattern:
 - - Email: user{n}@test.com
@@ -126,9 +131,11 @@ The seed data user accounts will need to setup two-factor authentication before 
 
 ## Testing
 
-The Eclipse Software Help Desk includes comprehensive integration tests covering key functionality such as user authentication, ticket creation, viewing, editing, deletion, and security features.
+### Integration Testing
 
-To run the tests locally, ensure your virtual environment is activated and dependencies are installed, then run the following in the terminal: 
+The Eclipse Software Help Desk includes comprehensive integration tests covering ticket management and user management, in addition to application security features. 
+
+To run these tests locally, ensure your virtual environment is activated and dependencies are installed, then run the following in the terminal: 
 
 $env:PYTHONPATH = "."
 pytest tests
@@ -139,7 +146,7 @@ This will discover and run all tests in the `tests` directory and provide a deta
 
 The application has been manually tested to ensure that all user interactions, including registration, login, ticket management, user management, and permissions, function as expected across typical use cases.
 
-## Continuous Integration / Continous Deployment (CI/CD)
+## Continuous Integration / Continuous Delivery (CI/CD)
 
 - Continuous Integration: Every push or pull request to main triggers GitHub Actions. This builds the application and runs tests using Pytest, with coverage reports generated in XML format.
-- Continuous Deployment: Upon successful tests, the pipeline automatically deploys the Dockerised application to Render.
+- Continuous Delivery: Upon successful tests, the pipeline automatically deploys the Dockerised application to Render.
