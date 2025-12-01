@@ -138,7 +138,7 @@ The Eclipse Software Help Desk includes comprehensive integration tests covering
 To run these tests locally, ensure your virtual environment is activated and dependencies are installed, then run the following in the terminal: 
 
 $env:PYTHONPATH = "."
-pytest tests
+pytest -v
 
 This will discover and run all tests in the `tests` directory and provide a detailed report of the results.
 

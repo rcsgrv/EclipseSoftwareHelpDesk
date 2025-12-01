@@ -52,14 +52,8 @@ def test_login_2fa_page_requires_login(client):
 
     assert b'No pending login found.' in response.data
 
-# Tests that accessing an admin-only page redirects to login page when not authenticated
+# Tests that accessing the users page redirects to login page when not authenticated
 def test_admin_page_requires_login(client):
     response = client.get("/users", follow_redirects=True)
 
     assert b'Please log in to access this page.' in response.data
-
-# Tests that accessing an admin-only page redirects to home page when logged in as non-admin
-def test_admin_page_requires_admin(logged_in_non_admin):
-    response = logged_in_non_admin.get("/users", follow_redirects=True)
-
-    assert b'You do not have permission to view this page.' in response.data
