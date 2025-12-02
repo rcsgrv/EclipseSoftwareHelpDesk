@@ -16,8 +16,8 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build
+  build-test:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -33,12 +33,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest pytest-cov
-  test:
-    name: Test
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Execute Tests 
+
+      - name: Execute Tests
         run: |
           pytest --maxfail=1 --disable-warnings -q --cov=HelpDesk --cov-report=xml
         env:
@@ -53,8 +49,7 @@ jobs:
   deploy:
     name: Deploy to Render
     runs-on: ubuntu-latest
-    needs: build
-    needs: test
+    needs: build-test
     steps:
       - name: Trigger Render Deploy Hook
         run: |
