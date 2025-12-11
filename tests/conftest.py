@@ -30,7 +30,7 @@ def client(app):
 def admin_user(app):
     with app.app_context():
         user = User(
-            email="adminuser@test.com",
+            email="adminuser@recruitment-software.co.uk",
             forename="Admin",
             surname="User",
             password=generate_password_hash("Password123!"),
@@ -44,7 +44,7 @@ def admin_user(app):
 def non_admin_user(app):
     with app.app_context():
         user = User(
-            email="nonadmin@test.com",
+            email="nonadmin@recruitment-software.co.uk",
             forename="NonAdmin",
             surname="User",
             password=generate_password_hash("Password123!"),

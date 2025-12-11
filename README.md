@@ -110,13 +110,13 @@ https://eclipsesoftwarehelpdesk.onrender.com
 When the application is ran for the first time, seed data will be generated. This seed data consists of 10 users and 10 tickets. 
 
 - The first 2 users have administrative access and will have the following credentials:
-- - Email Address: user{n}@test.com
+- - Email Address: user{n}@recruitment-software.co.uk
 - - Password: Password{n}!
 
 Where {n} ranges from 1 to 2 (e.g. user1@test.com / Password1! and user2@test.com / Password2!).
 
 - The remaining 9 users have non-administrative access and will have the following credentials:
-- - Email: user{n}@test.com
+- - Email: user{n}@recruitment-software.co.uk
 - - Password: Password{n}!
 
 Where {n} ranges from 3 to 10 (e.g. user3@test.com / Password3!, user4@test.com / Password4!, etc.).

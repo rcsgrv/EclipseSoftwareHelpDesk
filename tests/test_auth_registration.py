@@ -1,7 +1,7 @@
 # Tests that registration functions correctly when valid data is provided
 def test_register(client):
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "New",
         "surname": "User",
         "password": "Password123!",
@@ -25,7 +25,7 @@ def test_register_existing_email(client, non_admin_user):
 # Tests that registration fails when passwords do not match
 def test_register_password_mismatch(client):
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "New",
         "surname": "User",
         "password": "Password123!",
@@ -37,7 +37,7 @@ def test_register_password_mismatch(client):
 # Tests that registration fails when password is too weak
 def test_register_weak_password(client):
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "New",
         "surname": "User",
         "password": "password",
@@ -49,7 +49,7 @@ def test_register_weak_password(client):
 # Tests that registration fails when email is invalid
 def test_register_invalid_email(client):
     response = client.post("/register", data={
-        "email": "invalidemail@test",
+        "email": "invalidemail@recruitment-software",
         "forename": "New",
         "surname": "User",
         "password": "Password123!",
@@ -61,7 +61,7 @@ def test_register_invalid_email(client):
 # Tests that registration fails when forename contains invalid characters
 def test_register_invalid_forename(client):
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "123",
         "surname": "User",
         "password": "password",
@@ -73,7 +73,7 @@ def test_register_invalid_forename(client):
 # Tests that registration fails when surname contains invalid characters
 def test_register_invalid_surname(client):
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "New",
         "surname": "123",
         "password": "password",
@@ -86,7 +86,7 @@ def test_register_invalid_surname(client):
 def test_register_long_forename(client):
     long_forename = "A" * 51
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": long_forename,
         "surname": "User",
         "password": "password",
@@ -100,7 +100,7 @@ def test_register_long_forename(client):
 def test_register_long_surname(client):
     long_surname = "A" * 51
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "New",
         "surname": long_surname,
         "password": "password",
@@ -114,7 +114,7 @@ def test_register_long_password(client):
     long_password = "A" * 17 + "a1!"
     print(long_password)
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "New",
         "surname": "User",
         "password": long_password,
@@ -128,7 +128,7 @@ def test_register_long_password(client):
 def test_register_short_password(client):
     short_password = "Aa1!"
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "New",
         "surname": "User",
         "password": short_password,
@@ -140,7 +140,7 @@ def test_register_short_password(client):
 # Tests that registration fails when forename is blank
 def test_register_blank_forename(client):
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "",
         "surname": "User",
         "password": "Password123!",
@@ -152,7 +152,7 @@ def test_register_blank_forename(client):
 # Tests that registration fails when surname is blank
 def test_register_blank_surname(client):
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "New",
         "surname": "",
         "password": "Password123!",
@@ -176,7 +176,7 @@ def test_register_blank_email(client):
 # Tests that registration fails when password is blank
 def test_register_blank_password(client):
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "New",
         "surname": "User",
         "password": "",
@@ -188,7 +188,7 @@ def test_register_blank_password(client):
 # Tests that registration fails when password confirmation is blank
 def test_register_blank_password_confirm(client):
     response = client.post("/register", data={
-        "email": "newuser@test.com",
+        "email": "newuser@recruitment-software.co.uk",
         "forename": "New",
         "surname": "User",
         "password": "Password123!",

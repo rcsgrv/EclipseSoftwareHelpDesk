@@ -23,7 +23,7 @@ def populate_seed_data():
         user = User(
             forename=forenames[i],
             surname=surnames[i],
-            email=f"user{i+1}@test.com",
+            email=f"user{i+1}@recruitment-software.co.uk",
             password=generate_password_hash(f"Password{i+1}!"),
             is_admin= True if is_admin else False,
             totp_secret=None,
