@@ -1,6 +1,6 @@
 # Eclipse Software Help Desk
 
-The Eclipse Software Help Desk is a lightweight web application built with Flask, SQLAlchemy, SCSS, and HTML. The application enables users to create, view, update, and manage support tickets in an organised and efficient way. Designed with responsiveness and usability in mind, the system is best suited for customer-facing environments.
+The Eclipse Software Help Desk is a lightweight web application that enables users to create, view, update, and manage support tickets in an organised and efficient manner. Designed with responsiveness and usability in mind, the system is best suited for customer-facing environments.
 
 ## Features
 
@@ -8,13 +8,12 @@ The Eclipse Software Help Desk is a lightweight web application built with Flask
 - Facilitate communication between users with comments
 - Secure registration and login with password hashing and two-factor authentication (2FA)
 - Role-base access control (RBAC) to enhance security by enforcing the principle of least privilege
-- User management allowing for the promotion/demotion of user roles
+- User management allowing for the promotion/demotion of administrative status
 - Responsive and accessible user interface designed with CSS, HTML, and JavaScript
-- Flash alerts for real-time feedback on user actions (success/error)
-- Paginated ticket listings 
+- Flash alerts for real-time feedback on user actions
 - Dynamic ticket forms with input validation
 - Modular and maintainable codebase using Flask blueprints
-- Built-in SQLite database managed via SQLAlchemy ORM (Object Relational Mapper)
+- Built-in SQLite database managed via SQLAlchemy ORM
 - Clean separation of concerns between models, routes, and templates
 - Integration tests covering core functionality developed using Pytest
 
@@ -26,9 +25,6 @@ The Eclipse Software Help Desk is a lightweight web application built with Flask
 - **CSS** 
 - **HTML5**
 - **JavaScript**
-
-## Database
-The system uses SQLAlchemy for ORM and SQLite as the default local database. 
 
 ## Architecture
 
@@ -44,15 +40,7 @@ This separation of concerns ensures modularity, scalability, and ease of mainten
 
 ### Prerequisites
 
-Ensure Python 3 is installed. It is also recommended to use a virtual environment.
-
-To create the virtual environment run the following in the terminal: 
-
-py -m venv venv
-
-To activate the virtual environment run the following in the terminal: 
-
-venv\Scripts\activate
+Ensure Python 3 is installed (https://www.python.org/downloads/). 
 
 ### Repository
 
@@ -60,20 +48,30 @@ Clone the repository which is located at:
 
 https://github.com/rcsgrv/EclipseSoftwareHelpDesk.git
 
+### Virtual Environment
+
+Create a virtual environment by running the following in the terminal: 
+
+py -m venv venv
+
+To activate the virtual environment run the following in the terminal: 
+
+venv\Scripts\activate
+
 ### Install Dependencies
 
-To install required packages run the following in the terminal: 
+Install required packages by running the following in the terminal: 
 
 pip install --upgrade pip
 pip install -r requirements.txt
 
 ### Environment Configuration
 
-For security purposes, the .env file has not been committed. A copy of .env.example will need to be created by running the following in the terminal:
+For security purposes, the .env file has not been committed. A copy of .env.example will need to be created and placed in a .env file by running the following in the terminal:
 
 copy .env.example .env
 
-Once the .env file is created, open it and ensure that it contains:
+Once the .env file is created, open it and verify that it contains:
 
 SECRET_KEY=developmentsecretkey123
 DATABASE_URL=sqlite:///developmentdatabase.db
@@ -92,7 +90,7 @@ http://127.0.0.1:5000/.
 
 ### Running the Application with Docker
 
-If Docker is installed, run the following in the terminal:
+If Docker Desktop is installed, run the following in the terminal:
 
 docker build -t eclipsesoftwarehelpdesk .
 docker run -p 5000:5000 eclipsesoftwarehelpdesk
@@ -117,7 +115,7 @@ When the application is ran for the first time, seed data will be generated. Thi
 
 Where {n} ranges from 1 to 2 (e.g. user1@test.com / Password1! and user2@test.com / Password2!).
 
-- The remaining 9 users have non-administrative access, following the same pattern:
+- The remaining 9 users have non-administrative access and will have the following credentials:
 - - Email: user{n}@test.com
 - - Password: Password{n}!
 
@@ -127,7 +125,7 @@ Where {n} ranges from 3 to 10 (e.g. user3@test.com / Password3!, user4@test.com 
 
 To improve security, two-factor authentication has been implemented. Upon registration, users will be prompted to scan a QR code using Google Authenticator. Google Authenticator will provide a 6 digit code that should be inputted when a user logs in to the system.
 
-The seed data user accounts will need to setup two-factor authentication before they can log in to the system. 
+The seed data user accounts will be required to setup two-factor authentication before they can log in to the system. 
 
 ## Testing
 
@@ -148,5 +146,5 @@ The application has been manually tested to ensure that all user interactions, i
 
 ## Continuous Integration / Continuous Delivery (CI/CD)
 
-- Continuous Integration: Every push or pull request to main triggers GitHub Actions. This builds the application and runs tests using Pytest, with coverage reports generated in XML format.
-- Continuous Delivery: Upon successful tests, the pipeline automatically deploys the Dockerised application to Render.
+- Continuous Integration: Every push to main triggers GitHub Actions. This builds the application and executes tests, with test coverage reports generated in XML format.
+- Continuous Delivery: If the Build and Test step is successful, the pipeline automatically deploys the Dockerised application to Render.
