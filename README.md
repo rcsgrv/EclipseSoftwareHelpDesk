@@ -138,7 +138,7 @@ To run these tests locally, ensure your virtual environment is activated and dep
 $env:PYTHONPATH = "."
 pytest -v
 
-This will discover and run all tests in the `tests` directory and provide a detailed report of the results.
+This will discover and run all tests in the `tests/` directory and provide a detailed report of the results.
 
 ### Manual Testing
 
