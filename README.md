@@ -107,7 +107,7 @@ https://eclipsesoftwarehelpdesk.onrender.com
 
 ### Seed Data
 
-When the application is ran for the first time, seed data will be generated. This seed data consists of 10 users and 10 tickets. 
+When the application is ran for the first time, seed data will be generated. This seed data consists of 10 users, 10 tickets, and 10 comments. 
 
 - The first 2 users have administrative access and will have the following credentials:
 - - Email Address: user{n}@recruitment-software.co.uk
@@ -136,6 +136,7 @@ The Eclipse Software Help Desk includes comprehensive integration tests covering
 To run these tests locally, ensure your virtual environment is activated and dependencies are installed, then run the following in the terminal: 
 
 $env:PYTHONPATH = "."
+
 pytest -v
 
 This will discover and run all tests in the `tests/` directory and provide a detailed report of the results.

@@ -2,7 +2,7 @@ import random
 from werkzeug.security import generate_password_hash
 from datetime import datetime, timezone
 from .extensions import db
-from .models import User, Ticket
+from .models import User, Ticket, Comment
 
 def populate_seed_data():
     if User.query.first():
@@ -36,7 +36,7 @@ def populate_seed_data():
 
     users = User.query.all()
 
-    administrator = [u for u in users if u.is_admin]
+    administrators = [u for u in users if u.is_admin]
     non_administrators = [u for u in users if not u.is_admin]
 
     # 10 Tickets
@@ -74,7 +74,7 @@ def populate_seed_data():
     tickets = []
     for i in range(10):
         creator = non_administrators[i % len(non_administrators)]
-        assignee = random.choice(administrator)
+        assignee = random.choice(administrators)
 
         ticket = Ticket(
             ticket_type=random.choice(ticket_type),
@@ -94,4 +94,36 @@ def populate_seed_data():
 
     db.session.add_all(tickets)
     db.session.commit()
-    print("10 users and 10 tickets have been created within the database.")
+
+    # 10 Comments
+    comment_text = [
+        "I am experiencing the same issue.",
+        "Can you provide more details on this?",
+        "This has been resolved in the latest update.",
+        "We are currently investigating this problem.",
+        "Thank you for bringing this to our attention.",
+        "Please try restarting the application.",
+        "This feature is scheduled for future release.",
+        "Could you please clarify your request?",
+        "We apologise for any inconvenience caused.",
+        "This bug has been logged for further review."
+    ]
+
+    tickets = Ticket.query.all()
+    comments = []
+    for i in range(10):
+        ticket = tickets[i]
+        creator = administrators[i % len(administrators)]
+
+        comment = Comment(
+            comment_text=comment_text[i],
+            created_by=f"{creator.forename} {creator.surname}",
+            date_created=datetime.now(),
+            user_id=creator.id,
+            ticket_id=ticket.id,
+        )
+        comments.append(comment)
+
+    db.session.add_all(comments)
+    db.session.commit()
+    print("10 users, 10 tickets, and 10 comments have been created within the database.")
