@@ -21,10 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/setup-python@v6.0.0
+        uses: ctions/checkout@v6.0.1
 
       - name: Setup Python
-        uses: actions/setup-python@v6.1.0
+        uses: actions/setup-python@v6.0.0
         with: 
           python-version-file: 3.14 
 
