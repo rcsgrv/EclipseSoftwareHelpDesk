@@ -3,7 +3,6 @@
 # Pipeline configuration for CI/CD using GitHub Actions.
 # This pipeline runs on pushes and pull requests to the main branch.
 # It includes jobs for building, testing, and deploying the application.
-# The deployment step triggers a Render.com deploy hook using a secret stored in GitHub Secrets.
 
 name: CI/CD Pipeline
 
@@ -55,4 +54,3 @@ jobs:
         with:
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
- 
