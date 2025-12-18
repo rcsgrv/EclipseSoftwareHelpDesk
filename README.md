@@ -17,25 +17,6 @@ The Eclipse Software Help Desk is a lightweight web application that enables use
 - Clean separation of concerns between models, routes, and templates
 - Integration tests covering core functionality developed using Pytest
 
-## Technologies Used
-
-- **Python 3** with **Flask**
-- **SQLAlchemy** ORM with **SQLite**
-- **Jinja2** 
-- **CSS** 
-- **HTML5**
-- **JavaScript**
-
-## Architecture
-
-This project follows the Model-View-Controller (MVC) design pattern:
-
-- **Model**: Managed by SQLAlchemy in the `models/` directory, handling database schema and interactions.
-- **View**: HTML templates rendered using Jinja2, located in the `templates/` directory.
-- **Controller**: Flask route logic located in the `views/` directory, managing requests, input validation, and responses.
-
-This separation of concerns ensures modularity, scalability, and ease of maintenance.
-
 ## Getting Started
 
 ### Prerequisites
@@ -133,7 +114,7 @@ The seed data user accounts will be required to setup two-factor authentication 
 
 The Eclipse Software Help Desk includes comprehensive integration tests covering ticket management and user management, in addition to application security features. 
 
-To run these tests locally, ensure your virtual environment is activated and dependencies are installed, then run the following in the terminal: 
+To run these tests locally, ensure that your virtual environment is activated and dependencies are installed, then run the following in the terminal: 
 
 $env:PYTHONPATH = "."
 
@@ -144,8 +125,3 @@ This will discover and run all tests in the `tests/` directory and provide a det
 ### Manual Testing
 
 The application has been manually tested to ensure that all user interactions, including registration, login, ticket management, user management, and permissions, function as expected across typical use cases.
-
-## Continuous Integration / Continuous Delivery (CI/CD)
-
-- Continuous Integration: Every push to main triggers GitHub Actions. This builds the application and executes tests, with test coverage reports generated in XML format.
-- Continuous Delivery: If the Build and Test step is successful, the pipeline automatically deploys the Dockerised application to Render.
