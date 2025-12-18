@@ -112,7 +112,7 @@ The seed data user accounts will be required to setup two-factor authentication 
 
 ### Integration Testing
 
-The Eclipse Software Help Desk includes comprehensive integration tests covering ticket management and user management, in addition to application security features. 
+The Eclipse Software Help Desk application contains integration tests that cover core functionality, such as authentication, form validation, and ticket/user management. 
 
 To run these tests locally, ensure that your virtual environment is activated and dependencies are installed, then run the following in the terminal: 
 
@@ -124,4 +124,4 @@ This will discover and run all tests in the `tests/` directory and provide a det
 
 ### Manual Testing
 
-The application has been manually tested to ensure that all user interactions, including registration, login, ticket management, user management, and permissions, function as expected across typical use cases.
+The application has been manually tested to ensure that all user interactions, including registration, login, ticket/user management, and permissions, function as expected across typical use cases.
