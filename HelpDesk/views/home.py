@@ -18,11 +18,13 @@ def home():
     per_page = 10
 
     # Base query
-    query = Ticket.query
+    base_query = Ticket.query
 
     # If non-admin, only show their own tickets
     if not current_user.is_admin:
-        query = query.filter(Ticket.user_id == current_user.id)
+        base_query = base_query.filter(Ticket.user_id == current_user.id)
+
+    query = base_query
 
     # Apply filters from request args
     ticket_type_filter = request.args.get('ticket_type')
@@ -58,12 +60,12 @@ def home():
     tickets = query.order_by(Ticket.id.desc()).paginate(page=page, per_page=per_page)
 
     # Counts for dashboard widgets
-    open_tickets = query.filter(Ticket.status == 'Open').count()
-    in_progress_tickets = query.filter(Ticket.status == 'In Progress').count()
-    on_hold_pending_tickets = query.filter(Ticket.status == 'On Hold / Pending').count()
-    resolved_tickets = query.filter(Ticket.status == 'Resolved').count()
-    closed_tickets = query.filter(Ticket.status == 'Closed').count()
-
+    open_tickets = base_query.filter(Ticket.status == 'Open').count()
+    in_progress_tickets = base_query.filter(Ticket.status == 'In Progress').count()
+    on_hold_pending_tickets = base_query.filter(Ticket.status == 'On Hold / Pending').count()
+    resolved_tickets = base_query.filter(Ticket.status == 'Resolved').count()
+    closed_tickets = base_query.filter(Ticket.status == 'Closed').count()
+    
     assignees = (
         db.session.query(User)
         .join(Ticket, Ticket.assignee_id == User.id)
